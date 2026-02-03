@@ -396,7 +396,7 @@
                 });
             }
 
-            const GAS_URL = "你的GAS佈署網址";
+            const GAS_URL = "https://script.google.com/macros/s/AKfycbzC3A542P7JcN81mRiCdikLWeEgWL0ALe4zHEs62KfpdFclFt_n4G1kcsX6IwZ1oY_u6g/exec";
             try {
                 const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
                 const json = await res.json();
