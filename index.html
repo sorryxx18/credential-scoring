@@ -8,127 +8,137 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background: #f0f2f5; min-height: 100vh; }
-        .glass-card { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 1.5rem; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05); }
-        .item-row { transition: all 0.2s ease; border: 2px solid #f1f5f9; }
-        .highest-glow { border-color: #3b82f6 !important; background: #eff6ff; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1); }
-        .no-cert-active { border-color: #cbd5e1 !important; background: #f8fafc; opacity: 0.7; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #f1f5f9; min-height: 100vh; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.5); }
+        .item-row { transition: all 0.3s ease; border: 2px solid transparent; }
+        .highest-glow { border-color: #2563eb; background: #eff6ff; box-shadow: 0 10px 15px -5px rgba(37, 99, 235, 0.1); }
+        .no-cert-card { background: #f8fafc; border: 2px dashed #cbd5e1; }
+        .no-cert-active { background: #f1f5f9; border-color: #94a3b8; opacity: 0.8; }
         .select-custom { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.5em 1.5em; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-10 text-slate-800">
 
     <div class="max-w-5xl mx-auto">
         <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-            <div>
-                <h1 class="text-3xl font-black text-slate-800 tracking-tight">專業技術能力積分申報</h1>
-                <p class="text-slate-500 font-medium italic">Professional Skills Evaluator</p>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div class="flex items-center gap-4">
+                <div class="bg-blue-600 p-4 rounded-3xl shadow-xl text-white">
+                    <i class="fa-solid fa-fire-extinguisher text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">專業技術積分申報</h1>
+                    <p class="text-slate-500 font-bold italic underline decoration-blue-500 underline-offset-4">Professional Skill Assessment</p>
+                </div>
             </div>
-            <div class="bg-blue-600 text-white px-6 py-2 rounded-2xl shadow-lg font-bold">
-                臺北市政府消防局
+            <div class="bg-white px-6 py-2 rounded-2xl shadow-sm border border-slate-200 text-center">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Bureau Info</p>
+                <p class="text-blue-700 font-black">臺北市政府消防局</p>
             </div>
         </header>
 
-        <!-- 引導區 -->
-        <div class="glass-card p-6 mb-8 border-l-8 border-blue-600 shadow-sm">
-            <h2 class="font-bold text-slate-800 mb-2 flex items-center">
-                <i class="fa-solid fa-circle-info text-blue-600 mr-2"></i> 系統申報須知
+        <!-- 申報須知 -->
+        <div class="glass-card p-8 mb-10 shadow-xl relative overflow-hidden">
+            <h2 class="text-xl font-black text-slate-800 mb-4 flex items-center italic">
+                <i class="fa-solid fa-circle-exclamation text-blue-600 mr-2"></i> 申報邏輯與說明
             </h2>
-            <div class="grid md:grid-cols-2 gap-4 text-xs text-slate-500 leading-relaxed">
-                <p><i class="fa-solid fa-check text-blue-500 mr-1"></i> <strong>擇優原則：</strong> 每個類別自動選取「有效且分數最高」之一項證照計分。</p>
-                <p><i class="fa-solid fa-check text-blue-500 mr-1"></i> <strong>效期填寫：</strong> 僅救生員需填寫到期日，過期將不予採計。</p>
+            <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-600 leading-relaxed font-medium">
+                <p class="flex items-start gap-2"><i class="fa-solid fa-check-circle text-blue-500 mt-1"></i> <strong>擇優計分：</strong> 每個類別自動計算有效且最高分之一項。</p>
+                <p class="flex items-start gap-2"><i class="fa-solid fa-check-circle text-blue-500 mt-1"></i> <strong>日期規定：</strong> 僅救生員需填寫到期日，過期則不予計分。</p>
             </div>
         </div>
 
-        <!-- 個人基本資料 -->
-        <section class="glass-card p-8 shadow-sm mb-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <!-- 基本資料與單位選擇 -->
+        <section class="glass-card p-10 shadow-xl mb-10 border-t-8 border-slate-800">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">身分證字號</label>
-                    <input type="text" id="idCard" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="E123456789">
+                    <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">身分證字號</label>
+                    <input type="text" id="idCard" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none" placeholder="A123456789">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">姓名</label>
-                    <input type="text" id="name" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="請輸入全名">
+                    <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">姓名</label>
+                    <input type="text" id="name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none" placeholder="全名">
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">主要隸屬</label>
-                    <select id="bigBrigade" onchange="toggleUnitUI()" class="select-custom w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="">請選擇單位類型</option>
-                        <option value="局本部">局本部 (科、室、中心)</option>
+                <div class="lg:col-span-2">
+                    <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">所屬機關/大隊</label>
+                    <select id="bigBrigade" onchange="toggleUnitUI()" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none font-bold">
+                        <option value="">請選擇</option>
+                        <option value="局本部">局本部 (各科、室、中心)</option>
                         <option value="第一大隊">第一大隊</option>
                         <option value="第二大隊">第二大隊</option>
                         <option value="第三大隊">第三大隊</option>
                         <option value="第四大隊">第四大隊</option>
                     </select>
                 </div>
-            </div>
 
-            <!-- 動態單位區域 -->
-            <div id="unitSelectorArea" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100 hidden">
-                <!-- 局本部輸入框 -->
-                <div id="hqInputArea" class="md:col-span-2 hidden">
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">所屬科、室、中心名稱</label>
-                    <input type="text" id="hqDeptName" class="w-full bg-white border-2 border-blue-100 rounded-xl p-3 focus:border-blue-500 outline-none" placeholder="例如：人事室、火災調查科...">
+                <!-- 局本部專用輸入框 (預設隱藏) -->
+                <div id="hqArea" class="lg:col-span-4 hidden animate-pulse">
+                    <label class="block text-[10px] font-black text-blue-600 mb-2 uppercase tracking-widest">局本部科室名稱</label>
+                    <input type="text" id="hqDept" class="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-3 focus:border-blue-500 outline-none placeholder-blue-300" placeholder="例如：人事室、救護科、火調科...">
                 </div>
-                <!-- 大隊選單 -->
-                <div id="brigadeSelectArea" class="md:col-span-2 grid md:grid-cols-2 gap-6 hidden">
+
+                <!-- 大隊連動選單 (預設隱藏) -->
+                <div id="brigadeArea" class="lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-8 hidden">
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">中隊</label>
-                        <select id="medBrigade" onchange="updateSmall()" class="select-custom w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"></select>
+                        <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">所屬中隊</label>
+                        <select id="medBrigade" onchange="updateSmall()" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-black text-slate-400 mb-1 tracking-widest uppercase">分隊 / 本部</label>
-                        <select id="smallUnit" class="select-custom w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"></select>
+                        <label class="block text-[10px] font-black text-slate-400 mb-2 uppercase tracking-widest">所屬分隊 / 本部</label>
+                        <select id="smallUnit" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 證照申報區 -->
-        <div id="mainForm" class="space-y-10">
-            <!-- JS 動態渲染 -->
+        <!-- 證照填寫區域 -->
+        <div id="mainForm" class="space-y-12">
+            <!-- JS 生成 -->
         </div>
 
-        <!-- 送出按鈕 -->
-        <div class="mt-16 mb-32 flex flex-col items-center">
-            <button onclick="prepareConfirmation()" class="bg-slate-900 hover:bg-blue-600 text-white px-16 py-4 rounded-2xl font-black text-xl shadow-xl transition-all transform hover:-translate-y-1">
-                預覽積分報告
+        <!-- 提交按鈕 -->
+        <div class="mt-20 mb-32 flex flex-col items-center">
+            <button onclick="prepareConfirmation()" class="group bg-slate-900 hover:bg-blue-700 text-white px-20 py-5 rounded-[2.5rem] font-black text-xl shadow-2xl transition-all hover:-translate-y-1 active:scale-95">
+                <i class="fa-solid fa-calculator mr-2 group-hover:rotate-12 transition inline-block"></i> 進入試算預覽
             </button>
+            <p class="mt-4 text-slate-400 text-xs font-bold uppercase tracking-widest">Check all details before submitting</p>
         </div>
     </div>
 
-    <!-- 懸浮儀表板 -->
-    <div class="fixed bottom-10 right-10 z-40 hidden md:block">
-        <div class="bg-white p-6 rounded-3xl shadow-2xl border-t-4 border-blue-600 text-center min-w-[140px]">
-            <p class="text-[10px] font-black text-slate-400 uppercase">Total Score</p>
-            <span id="floatingScore" class="text-4xl font-black text-blue-600">0.00</span>
+    <!-- 懸浮計分板 -->
+    <div class="fixed bottom-10 right-10 z-40">
+        <div class="bg-white/90 backdrop-blur px-8 py-5 rounded-[2rem] shadow-2xl border-4 border-blue-600 flex flex-col items-center">
+            <span class="text-[10px] font-black text-blue-600 uppercase tracking-tighter">Current Score</span>
+            <span id="floatingScore" class="text-4xl font-black text-slate-800 tracking-tighter">0.00</span>
         </div>
     </div>
 
     <!-- 預覽彈窗 -->
-    <div id="modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
-            <div class="bg-slate-50 p-8 border-b text-center">
-                <h3 class="text-2xl font-black text-slate-800 tracking-tighter italic">SCORE PREVIEW</h3>
-                <p class="text-slate-400 text-xs mt-1 font-bold">請確認以下採計結果是否正確</p>
-            </div>
-            <div class="p-8">
-                <div id="confirmList" class="space-y-3 mb-6"></div>
-                <div class="flex justify-between items-center bg-blue-50 p-6 rounded-3xl mb-8">
-                    <span class="font-bold text-slate-600">預計申報總積分：</span>
-                    <span id="modalTotal" class="text-4xl font-black text-blue-600">0.00</span>
+    <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden scale-in transition-all">
+            <div class="bg-slate-50 p-10 border-b flex justify-between items-center">
+                <div>
+                    <h3 class="text-3xl font-black text-slate-800 italic tracking-tighter">PREVIEW</h3>
+                    <p class="text-slate-500 font-bold">積分試算對帳單</p>
                 </div>
-                <div class="flex gap-4">
-                    <button onclick="closeModal()" class="flex-1 py-4 font-bold text-slate-400 hover:bg-slate-100 rounded-2xl transition">返回修改</button>
-                    <button id="finalSubmitBtn" onclick="submitToGas()" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition">確認送出</button>
+                <div class="text-6xl text-slate-200 font-black italic">#01</div>
+            </div>
+            <div class="p-10">
+                <div id="confirmList" class="space-y-4 mb-10"></div>
+                <div class="flex justify-between items-center bg-blue-50 p-8 rounded-[2.5rem] mb-10 border-2 border-blue-100">
+                    <span class="text-blue-800 font-black italic tracking-widest">TOTAL POINTS</span>
+                    <span id="modalTotal" class="text-5xl font-black text-blue-600">0.00</span>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="closeModal()" class="py-5 text-slate-400 font-bold hover:bg-slate-50 rounded-2xl transition">返回修改</button>
+                    <button id="finalSubmitBtn" onclick="submitToGas()" class="py-5 bg-blue-600 text-white font-bold rounded-2xl shadow-xl hover:bg-blue-700 transition">確定送出</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // 單位資料
         const AUDIT_UNITS = {
             "第一大隊": {
                 "本部": ["第一救災救護大隊"],
@@ -157,29 +167,28 @@
         };
 
         const CONFIG = [
-            { id: "water", title: "水上救生", items: [{ name: "救生員", score: 0.35, hasDate: true }, { name: "救生教練", score: 0.56, hasDate: false }] },
-            { id: "swift", title: "急流救援", items: [{ name: "急流救援訓練(40H)", score: 0.56, hasDate: false }, { name: "急流教官班(45H)", score: 0.70, hasDate: false }] },
-            { id: "dive", title: "潛水救援", items: [{ name: "救援潛水", score: 0.56, hasDate: false }, { name: "潛水教官", score: 0.70, hasDate: false }, { name: "公安潛水(82H)", score: 0.70, hasDate: false }] },
-            { id: "drive", title: "車輛駕駛", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
+            { id: "water", title: "水上救生類", items: [{ name: "救生員", score: 0.35, hasDate: true }, { name: "救生教練", score: 0.56, hasDate: false }] },
+            { id: "swift", title: "急流救援類", items: [{ name: "急流救援訓練(40小時)", score: 0.56, hasDate: false }, { name: "急流教官班(45小時)", score: 0.70, hasDate: false }] },
+            { id: "dive", title: "潛水救援類", items: [{ name: "救援潛水", score: 0.56, hasDate: false }, { name: "潛水教官", score: 0.70, hasDate: false }, { name: "公共安全潛水(82小時)", score: 0.70, hasDate: false }] },
+            { id: "drive", title: "車輛駕駛類", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
         ];
 
-        // 單位切換 UI 邏輯
+        // 單位切換顯示
         function toggleUnitUI() {
-            const val = document.getElementById('bigBrigade').value;
-            const area = document.getElementById('unitSelectorArea');
-            const hq = document.getElementById('hqInputArea');
-            const brig = document.getElementById('brigadeSelectArea');
+            const bigVal = document.getElementById('bigBrigade').value;
+            const hqArea = document.getElementById('hqArea');
+            const brArea = document.getElementById('brigadeArea');
 
-            if (!val) { area.classList.add('hidden'); return; }
-            area.classList.remove('hidden');
-
-            if (val === "局本部") {
-                hq.classList.remove('hidden');
-                brig.classList.add('hidden');
+            if (bigVal === "局本部") {
+                hqArea.classList.remove('hidden');
+                brArea.classList.add('hidden');
+            } else if (bigVal && bigVal !== "局本部") {
+                hqArea.classList.add('hidden');
+                brArea.classList.remove('hidden');
+                updateMedium(bigVal);
             } else {
-                hq.classList.add('hidden');
-                brig.classList.remove('hidden');
-                updateMedium(val);
+                hqArea.classList.add('hidden');
+                brArea.classList.add('hidden');
             }
         }
 
@@ -187,63 +196,68 @@
             const med = document.getElementById('medBrigade');
             med.innerHTML = '<option value="">請選擇中隊</option>';
             document.getElementById('smallUnit').innerHTML = '<option value="">請選擇分隊</option>';
-            for (let m in AUDIT_UNITS[bigVal]) {
-                med.options.add(new Option(m, m));
+            if (AUDIT_UNITS[bigVal]) {
+                for (let m in AUDIT_UNITS[bigVal]) {
+                    med.options.add(new Option(m, m));
+                }
             }
         }
 
         function updateSmall() {
             const bigVal = document.getElementById('bigBrigade').value;
             const medVal = document.getElementById('medBrigade').value;
-            const small = document.getElementById('smallUnit');
-            small.innerHTML = '<option value="">請選擇分隊</option>';
-            if (AUDIT_UNITS[bigVal][medVal]) {
-                AUDIT_UNITS[bigVal][medVal].forEach(u => small.options.add(new Option(u, u)));
+            const unit = document.getElementById('smallUnit');
+            unit.innerHTML = '<option value="">請選擇分隊</option>';
+            if (bigVal && medVal && AUDIT_UNITS[bigVal][medVal]) {
+                AUDIT_UNITS[bigVal][medVal].forEach(u => unit.options.add(new Option(u, u)));
             }
         }
 
-        // 初始化申報表
+        // 初始化表單
         function initForm() {
             const container = document.getElementById('mainForm');
             CONFIG.forEach(cat => {
                 let html = `
-                    <div class="glass-card overflow-hidden shadow-sm border-b-4 border-slate-100">
-                        <div class="bg-slate-50 px-8 py-4 border-b flex justify-between items-center">
-                            <span class="font-black text-slate-400 text-[10px] tracking-widest uppercase">${cat.title}</span>
-                            <span class="text-[10px] font-bold text-blue-500 uppercase">擇優取最高分</span>
+                    <div class="glass-card overflow-hidden shadow-lg border-l-[12px] border-slate-200 hover:border-blue-500 transition-all">
+                        <div class="bg-slate-50 px-8 py-5 border-b flex justify-between items-center">
+                            <h3 class="font-black text-slate-400 text-xs tracking-widest uppercase italic">${cat.title}</h3>
+                            <span class="text-[10px] font-black text-blue-500 bg-blue-50 px-3 py-1 rounded-full border border-blue-100 uppercase">Picked Highest</span>
                         </div>
-                        <div class="p-6 space-y-4">
-                            <!-- 無相關證照選項 -->
-                            <div class="item-row p-4 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-slate-50 transition" onclick="handleNoCert('${cat.id}')">
-                                <input type="checkbox" id="noCert_${cat.id}" class="w-6 h-6 rounded-lg no-cert-check" onchange="handleNoCert('${cat.id}')">
-                                <div>
-                                    <p class="font-bold text-slate-700">無相關證照 / 暫不申報</p>
-                                    <p class="text-[10px] text-slate-400">本區積分將以 0.00 計算</p>
+                        <div class="p-4 md:p-8 space-y-6">
+                            <!-- 無相關證照卡片 -->
+                            <div class="no-cert-card p-6 rounded-3xl flex items-center justify-between cursor-pointer hover:shadow-inner transition" onclick="toggleNoCert('${cat.id}')" id="noCertBox_${cat.id}">
+                                <div class="flex items-center gap-4">
+                                    <input type="checkbox" id="noCertCheck_${cat.id}" class="w-8 h-8 rounded-xl border-slate-300 text-slate-600 focus:ring-0" onchange="toggleNoCert('${cat.id}')">
+                                    <div>
+                                        <p class="font-black text-slate-700">無相關證照 / 暫不申報</p>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">I don't have a certificate in this category</p>
+                                    </div>
                                 </div>
+                                <span class="text-xs font-black text-slate-300 italic">0.00 pts</span>
                             </div>
                 `;
                 cat.items.forEach(item => {
                     html += `
-                        <div class="item-row p-5 rounded-3xl bg-white flex flex-col md:flex-row md:items-center justify-between gap-4 cert-item-${cat.id}" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
+                        <div class="item-row p-6 rounded-[2.5rem] bg-white border-2 border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6 cert-item-${cat.id}" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
                             <div class="flex items-center gap-4">
-                                <input type="checkbox" onchange="handleCertCheck(this, '${cat.id}')" class="w-7 h-7 rounded-xl text-blue-600 cert-check focus:ring-0">
+                                <input type="checkbox" onchange="handleCertSelect(this, '${cat.id}')" class="w-8 h-8 rounded-xl text-blue-600 cert-check cursor-pointer focus:ring-0">
                                 <div>
-                                    <h4 class="font-bold text-slate-800">${item.name}</h4>
-                                    <p class="text-blue-600 font-black text-xs">+ ${item.score.toFixed(2)} pts</p>
+                                    <h4 class="font-bold text-slate-800 text-lg">${item.name}</h4>
+                                    <p class="text-blue-500 font-black text-sm tracking-tighter italic">+ ${item.score.toFixed(2)} Points</p>
                                 </div>
                             </div>
                             <div class="flex flex-wrap items-center gap-6">
-                                <div class="flex flex-col min-w-[140px]">
-                                    <span class="text-[10px] font-black text-slate-300 uppercase mb-1 underline">效期判定</span>
+                                <div class="flex flex-col min-w-[160px]">
+                                    <span class="text-[10px] font-black text-slate-300 uppercase mb-1 tracking-widest">Validity</span>
                                     ${item.hasDate ? `
                                         <div class="flex items-center gap-2">
-                                            <input type="date" onchange="updateCalc()" class="cert-date border-2 border-slate-100 rounded-lg p-1 text-[10px] outline-none focus:border-blue-400">
-                                            <label class="text-[10px] flex items-center gap-1 cursor-pointer"><input type="checkbox" onchange="toggleIndefinite(this)"> 永久</label>
-                                        </div>` : `<span class="text-xs font-bold text-green-600">永久有效</span>`}
+                                            <input type="date" onchange="updateCalc()" class="cert-date border-2 border-slate-100 rounded-xl p-2 text-xs focus:border-blue-400 transition-all outline-none">
+                                            <label class="text-[10px] flex items-center gap-1 font-bold text-slate-400 cursor-pointer"><input type="checkbox" onchange="toggleIndefinite(this)"> 永久</label>
+                                        </div>` : `<div class="text-[10px] font-black text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-200 inline-block">永久有效 / PERMANENT</div>`}
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="text-[10px] font-black text-slate-300 uppercase mb-1">檔案</span>
-                                    <input type="file" onchange="updateCalc()" class="cert-file text-[10px] w-32 text-slate-400 file:bg-slate-100 file:border-0 file:rounded-full file:px-3 file:py-1">
+                                    <span class="text-[10px] font-black text-slate-300 uppercase mb-1 tracking-widest">Evidence</span>
+                                    <input type="file" onchange="updateCalc()" class="cert-file text-[10px] w-40 text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-slate-100 file:text-slate-600 hover:file:bg-blue-50">
                                 </div>
                             </div>
                         </div>
@@ -251,22 +265,27 @@
                 });
                 container.innerHTML += html + `</div></div>`;
             });
+            updateCalc();
         }
 
-        // 邏輯控制：點擊「無證照」取消其他
-        function handleNoCert(catId) {
-            const noCertCheck = document.getElementById(`noCert_${catId}`);
-            if (event.target.type !== 'checkbox') noCertCheck.checked = !noCertCheck.checked;
-            
-            if (noCertCheck.checked) {
+        // 切換無相關證照邏輯
+        function toggleNoCert(catId) {
+            if (event.target.type !== 'checkbox') {
+                document.getElementById(`noCertCheck_${catId}`).checked = !document.getElementById(`noCertCheck_${catId}`).checked;
+            }
+            const isChecked = document.getElementById(`noCertCheck_${catId}`).checked;
+            if (isChecked) {
+                // 取消所有該類別證照的勾選
                 document.querySelectorAll(`.cert-item-${catId} .cert-check`).forEach(c => c.checked = false);
             }
             updateCalc();
         }
 
-        // 邏輯控制：勾選證照時取消「無證照」
-        function handleCertCheck(el, catId) {
-            if (el.checked) document.getElementById(`noCert_${catId}`).checked = false;
+        // 勾選證照時自動取消無相關證照
+        function handleCertSelect(el, catId) {
+            if (el.checked) {
+                document.getElementById(`noCertCheck_${catId}`).checked = false;
+            }
             updateCalc();
         }
 
@@ -284,18 +303,22 @@
             CONFIG.forEach(cat => {
                 let catMax = 0; let winner = null;
                 const rows = document.querySelectorAll(`.cert-item-${cat.id}`);
-                const isNoCert = document.getElementById(`noCert_${cat.id}`).checked;
+                const isNoCert = document.getElementById(`noCertCheck_${cat.id}`).checked;
+                const box = document.getElementById(`noCertBox_${cat.id}`);
 
-                if (!isNoCert) {
+                box.classList.remove('no-cert-active');
+                if (isNoCert) {
+                    box.classList.add('no-cert-active');
+                    rows.forEach(r => { r.classList.add('opacity-30'); r.classList.remove('highest-glow'); });
+                } else {
                     rows.forEach(row => {
                         const isChecked = row.querySelector('.cert-check').checked;
                         const dateInput = row.querySelector('.cert-date');
-                        const isIndefinite = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+                        const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
                         row.classList.remove('highest-glow', 'opacity-30');
-
                         if (isChecked) {
                             let valid = true;
-                            if (dateInput && !isIndefinite) {
+                            if (dateInput && !isPerm) {
                                 if (!dateInput.value || new Date(dateInput.value) < today) valid = false;
                             }
                             if (valid && parseFloat(row.dataset.score) > catMax) {
@@ -306,8 +329,6 @@
                     if (winner) {
                         rows.forEach(r => { if(r === winner) r.classList.add('highest-glow'); else if(r.querySelector('.cert-check').checked) r.classList.add('opacity-30'); });
                     }
-                } else {
-                    rows.forEach(r => { r.classList.add('opacity-30'); r.classList.remove('highest-glow'); });
                 }
                 total += catMax;
             });
@@ -316,31 +337,37 @@
 
         function prepareConfirmation() {
             const bigVal = document.getElementById('bigBrigade').value;
+            const hqVal = document.getElementById('hqDept').value;
+            const smallVal = document.getElementById('smallUnit').value;
             const name = document.getElementById('name').value;
-            if (!bigVal || !name) return alert("請填寫姓名與所屬單位！");
+
+            if (!name) return alert("請填寫姓名！");
+            if (!bigVal) return alert("請選擇所屬大隊或局本部！");
+            if (bigVal === "局本部" && !hqVal) return alert("請填寫局本部科室名稱！");
+            if (bigVal !== "局本部" && !smallVal) return alert("請選擇所屬分隊！");
 
             const list = document.getElementById('confirmList'); list.innerHTML = "";
             let finalTotal = 0;
+
             CONFIG.forEach(cat => {
                 let best = { name: "無相關證照", score: 0 };
-                const isNoCert = document.getElementById(`noCert_${cat.id}`).checked;
-                if (!isNoCert) {
+                if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
                     document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
-                        const isChecked = row.querySelector('.cert-check').checked;
-                        const dateInput = row.querySelector('.cert-date');
-                        const isIndefinite = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-                        if (isChecked) {
+                        if (row.querySelector('.cert-check').checked) {
+                            const dateInput = row.querySelector('.cert-date');
+                            const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
                             let valid = true;
-                            if (dateInput && !isIndefinite) {
+                            if (dateInput && !isPerm) {
                                 if (!dateInput.value || new Date(dateInput.value) < new Date().setHours(0,0,0,0)) valid = false;
                             }
                             if (valid && parseFloat(row.dataset.score) > best.score) best = { name: row.dataset.name, score: parseFloat(row.dataset.score) };
                         }
                     });
                 }
-                list.innerHTML += `<div class="flex justify-between items-center p-4 bg-slate-50 rounded-2xl"><div><p class="text-[10px] font-black text-slate-300 uppercase">${cat.title}</p><p class="font-bold text-slate-700">${best.name}</p></div><p class="text-xl font-black text-blue-600">+${best.score.toFixed(2)}</p></div>`;
+                list.innerHTML += `<div class="flex justify-between items-center p-5 bg-slate-50 rounded-2xl border border-slate-100"><div><p class="text-[10px] font-black text-slate-300 uppercase">${cat.title}</p><p class="font-bold text-slate-700">${best.name}</p></div><p class="text-xl font-black text-blue-600">+${best.score.toFixed(2)}</p></div>`;
                 finalTotal += best.score;
             });
+
             document.getElementById('modalTotal').innerText = finalTotal.toFixed(2);
             document.getElementById('modal').classList.remove('hidden');
         }
@@ -348,16 +375,17 @@
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
         async function submitToGas() {
-            const btn = document.getElementById('finalSubmitBtn'); btn.disabled = true; btn.innerText = "傳送中...";
+            const btn = document.getElementById('finalSubmitBtn'); btn.disabled = true; btn.innerText = "UPLOADING...";
             const payload = {
                 idCard: document.getElementById('idCard').value,
                 name: document.getElementById('name').value,
                 bigBrigade: document.getElementById('bigBrigade').value,
-                hqDeptName: document.getElementById('hqDeptName').value,
+                hqDept: document.getElementById('hqDept').value,
                 medBrigade: document.getElementById('medBrigade').value,
                 smallUnit: document.getElementById('smallUnit').value,
                 certificates: []
             };
+
             for (let check of document.querySelectorAll('.cert-check:checked')) {
                 const row = check.closest('.item-row');
                 const file = row.querySelector('.cert-file').files[0];
@@ -367,11 +395,14 @@
                     fileBase64: file ? await toBase64(file) : null
                 });
             }
-            // 這裡發送 fetch 到你的 GAS URL
-            console.log("Payload:", payload);
-            alert("模擬送出成功！請至控制台查看資料結構。");
+
+            const GAS_URL = "你的GAS佈署網址";
+            try {
+                const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
+                const json = await res.json();
+                if (json.result === "success") { alert("申報完成！"); location.reload(); } else { alert("失敗：" + json.message); }
+            } catch(e) { alert("連線失敗，請檢查網路。"); }
             btn.disabled = false; btn.innerText = "確認送出";
-            closeModal();
         }
 
         const toBase64 = file => new Promise((resolve, reject) => {
