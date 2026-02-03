@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>專業技術能力積分申報系統</title>
+    <title>臺北市消防局訓練中心積分證照統計系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
@@ -32,20 +32,20 @@
                     <i class="fa-solid fa-fire-extinguisher text-3xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-black tracking-tight">專業技術能力積分申報</h1>
+                    <h1 class="text-2xl md:text-3xl font-black tracking-tight">臺北市消防局訓練中心積分證照統計系統</h1>
                     <p class="text-slate-500 font-bold italic underline decoration-blue-500 underline-offset-4 uppercase text-[10px]">Promotion Scoring Standard</p>
                 </div>
             </div>
             <div class="bg-white px-6 py-2 rounded-2xl shadow-sm border border-slate-200 text-center">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1 italic">Bureau Info</p>
-                <p class="text-blue-700 font-black">臺北市政府消防局</p>
+                <p class="text-blue-700 font-black">臺北市政府消防局訓練中心</p>
             </div>
         </header>
 
-        <!-- 申報說明卡 -->
+        <!-- 填報說明卡 -->
         <div class="glass-card p-6 md:p-8 mb-8 border-l-8 border-blue-600 shadow-sm relative overflow-hidden">
             <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
-                <i class="fa-solid fa-circle-info text-blue-600 mr-2"></i> 申報須知與計分邏輯
+                <i class="fa-solid fa-circle-info text-blue-600 mr-2"></i> 填報須知與計分規定
             </h2>
             <div class="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm text-slate-600 leading-relaxed font-medium">
                 <div class="space-y-3">
@@ -118,12 +118,12 @@
         <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
             <div class="bg-slate-100 p-8 border-b">
                 <h3 class="text-2xl font-black text-slate-800 italic uppercase underline decoration-blue-500 decoration-4">Preview Summary</h3>
-                <p class="text-slate-500 text-sm font-bold mt-1">積分對帳單（僅顯示擇優採計項）：</p>
+                <p class="text-slate-500 text-sm font-bold mt-1">積分試算表（僅顯示擇優採計項）：</p>
             </div>
             <div class="p-8">
                 <div id="confirmList" class="space-y-3 mb-8 max-h-[45vh] overflow-y-auto"></div>
                 <div class="flex justify-between items-center bg-blue-50 p-6 rounded-[2rem] mb-8 border-2 border-blue-100">
-                    <span class="font-bold text-slate-600">預計申報總積分：</span>
+                    <span class="font-bold text-slate-600">預計總積分：</span>
                     <span id="modalTotal" class="text-4xl font-black text-blue-600 tracking-tighter">0.00</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
@@ -186,7 +186,7 @@
                             <div class="no-cert-card p-5 rounded-2xl flex items-center justify-between cursor-pointer border-2 border-dashed border-slate-200" onclick="toggleNoCert('${cat.id}')" id="noCertBox_${cat.id}">
                                 <div class="flex items-center gap-3">
                                     <input type="checkbox" id="noCertCheck_${cat.id}" class="w-7 h-7 rounded-xl text-slate-600 focus:ring-0">
-                                    <span class="font-bold text-slate-700 text-sm italic">無相關證照 / 暫不申報</span>
+                                    <span class="font-bold text-slate-700 text-sm italic">無相關證照 / 暫不填報</span>
                                 </div>
                             </div>
                 `;
