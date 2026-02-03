@@ -8,199 +8,188 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.3); }
-        .item-row { transition: all 0.2s ease; border: 2px solid transparent; }
-        .highest-glow { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1); }
-        .expiry-permanent { color: #059669; font-weight: bold; font-size: 0.75rem; background: #ecfdf5; padding: 2px 8px; border-radius: 999px; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%); min-height: 100vh; }
+        .glass-card { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.4); }
+        .item-row { transition: all 0.3s ease; border: 2px solid transparent; }
+        .highest-glow { border-color: #2563eb; background: #eff6ff; box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.15); }
+        .badge-permanent { color: #059669; font-weight: bold; font-size: 0.7rem; background: #ecfdf5; padding: 2px 10px; border-radius: 999px; border: 1px solid #10b981; }
+        input[type="date"]:disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
     </style>
 </head>
 <body class="p-4 md:p-10 text-slate-800">
 
     <div class="max-w-5xl mx-auto">
         <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-            <div class="text-center md:text-left">
-                <h1 class="text-3xl font-black text-slate-800 tracking-tight">專業技術能力積分申報</h1>
-                <p class="text-slate-500 font-medium">Professional Skills Evaluation System</p>
+        <header class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4 border-b-2 border-slate-300 pb-6">
+            <div>
+                <h1 class="text-4xl font-black text-slate-800 tracking-tight">專業技術積分申報</h1>
+                <p class="text-slate-500 font-medium mt-1">Professional Skills Evaluation & Reporting</p>
             </div>
-            <div class="bg-blue-600 text-white px-6 py-2 rounded-2xl shadow-lg font-bold italic">
-                台北市政府消防局標準
+            <div class="text-right">
+                <div class="bg-slate-800 text-white px-4 py-1 rounded-lg text-xs font-bold inline-block mb-1">台北市政府消防局標準</div>
+                <p class="text-slate-400 text-xs font-bold">系統版本：2024.V1</p>
             </div>
         </header>
 
-        <!-- 引導說明卡 -->
-        <div class="glass-card p-6 mb-8 shadow-xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl"><i class="fa-solid fa-gavel"></i></div>
-            <h2 class="text-xl font-bold text-blue-800 mb-4 flex items-center">
-                <i class="fa-solid fa-circle-info mr-2"></i> 計分與審核邏輯說明
-            </h2>
-            <div class="grid md:grid-cols-2 gap-8 text-sm leading-relaxed text-slate-600">
-                <ul class="space-y-3">
+        <!-- 邏輯說明卡 -->
+        <div class="glass-card p-8 mb-10 shadow-xl grid md:grid-cols-3 gap-8 relative overflow-hidden">
+            <div class="md:col-span-2">
+                <h2 class="text-xl font-bold text-blue-700 mb-4 flex items-center">
+                    <i class="fa-solid fa-clipboard-check mr-2"></i> 申報與計分邏輯
+                </h2>
+                <ul class="space-y-3 text-sm text-slate-600">
                     <li class="flex items-start gap-2">
-                        <i class="fa-solid fa-check-double text-blue-500 mt-1"></i>
-                        <span><strong>類別擇優：</strong> 同一區塊（如：水上救生）內若有多張證照，系統僅採計<strong>分數最高</strong>的一項。</span>
+                        <i class="fa-solid fa-1 text-blue-500 mt-1"></i>
+                        <span><strong>類別擇優：</strong> 同一區塊（如：水上救生）內若擁有多張證照，系統自動採計<strong>分數最高</strong>者。</span>
                     </li>
                     <li class="flex items-start gap-2">
-                        <i class="fa-solid fa-calendar-check text-blue-500 mt-1"></i>
-                        <span><strong>效期判定：</strong> 部分證照設有複訓期限。若屬有期限證照，<strong>過期則計為 0 分</strong>。標示為「永久」之證照則不受限。</span>
-                    </li>
-                </ul>
-                <ul class="space-y-3">
-                    <li class="flex items-start gap-2">
-                        <i class="fa-solid fa-file-arrow-up text-blue-500 mt-1"></i>
-                        <span><strong>附件要求：</strong> 每一項勾選申報的項目，皆需上傳清晰證照正反面影本供審核。</span>
+                        <i class="fa-solid fa-2 text-blue-500 mt-1"></i>
+                        <span><strong>效期限制：</strong> 除救生員證可自選期限外，其餘證照皆視為永久有效。</span>
                     </li>
                     <li class="flex items-start gap-2">
-                        <i class="fa-solid fa-user-shield text-blue-500 mt-1"></i>
-                        <span><strong>無證申報：</strong> 若目前無相關證照，請直接填寫基本資料送出，積分將以 0 分列計備查。</span>
+                        <i class="fa-solid fa-3 text-blue-500 mt-1"></i>
+                        <span><strong>佐證上傳：</strong> 所有勾選項目必須上傳證照檔案，否則該項不予計分。</span>
                     </li>
                 </ul>
+            </div>
+            <div class="bg-blue-50 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
+                <i class="fa-solid fa-calculator text-blue-200 text-5xl mb-2"></i>
+                <p class="text-xs text-blue-800 font-bold mb-1 italic">即時預估總積分</p>
+                <span id="floatingScore" class="text-5xl font-black text-blue-600">0.00</span>
             </div>
         </div>
 
         <!-- 基本資料 -->
-        <section class="glass-card p-8 shadow-md mb-10 border-t-4 border-slate-800">
+        <section class="glass-card p-8 shadow-lg mb-10 border-t-8 border-blue-600">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <label class="block text-xs font-black text-slate-400 mb-2 tracking-widest uppercase">身分證字號</label>
-                    <input type="text" id="idCard" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 focus:bg-white transition-all outline-none" placeholder="A123456789">
+                    <input type="text" id="idCard" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="E123456789">
                 </div>
                 <div>
                     <label class="block text-xs font-black text-slate-400 mb-2 tracking-widest uppercase">姓名</label>
-                    <input type="text" id="name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 focus:bg-white transition-all outline-none" placeholder="請輸入全名">
+                    <input type="text" id="name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="請填寫中文全名">
                 </div>
                 <div>
                     <label class="block text-xs font-black text-slate-400 mb-2 tracking-widest uppercase">服務單位</label>
-                    <input type="text" id="unit" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 focus:bg-white transition-all outline-none" placeholder="例如：秘書室">
+                    <input type="text" id="unit" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="例如：大安分隊">
                 </div>
             </div>
         </section>
 
-        <!-- 證照填寫區域 -->
-        <div id="mainForm" class="space-y-10">
+        <!-- 證照區域 -->
+        <div id="mainForm" class="space-y-12">
             <!-- 由 JS 動態生成項目 -->
         </div>
 
-        <!-- 底部提交區 -->
+        <!-- 提交按鈕 -->
         <div class="mt-16 mb-32 flex flex-col items-center">
-            <button onclick="prepareConfirmation()" class="group bg-slate-900 hover:bg-blue-700 text-white px-16 py-5 rounded-2xl font-black text-xl shadow-2xl transition-all hover:-translate-y-1 active:scale-95">
-                查看試算結果 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition"></i>
+            <button onclick="prepareConfirmation()" class="group bg-blue-600 hover:bg-slate-900 text-white px-20 py-5 rounded-3xl font-black text-xl shadow-2xl transition-all hover:-translate-y-1 active:scale-95">
+                <i class="fa-solid fa-magnifying-glass-chart mr-2"></i> 生成試算預覽
             </button>
-            <p class="mt-4 text-slate-400 text-sm font-medium italic">最後檢查日期：<span id="currentTime"></span></p>
-        </div>
-    </div>
-
-    <!-- 懸浮儀表板 -->
-    <div class="fixed bottom-8 right-8 z-40">
-        <div class="bg-white/80 backdrop-blur px-8 py-4 rounded-3xl shadow-2xl border-2 border-blue-600 flex flex-col items-center">
-            <span class="text-[10px] font-black text-blue-600 uppercase tracking-tighter">Current Score</span>
-            <span id="floatingScore" class="text-4xl font-black text-slate-800 tracking-tighter">0.00</span>
+            <p class="mt-6 text-slate-400 text-sm">點擊按鈕後，將彈出視窗確認各區採計結果</p>
         </div>
     </div>
 
     <!-- 試算確認彈窗 (Modal) -->
-    <div id="modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-xl rounded-[3rem] shadow-2xl overflow-hidden scale-in transition-all">
-            <div class="bg-slate-50 p-10 border-b">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="text-3xl font-black text-slate-800 italic">PREVIEW</h3>
-                        <p class="text-slate-500 font-medium">請確認以下採計項目是否正確：</p>
-                    </div>
-                    <div class="text-6xl text-slate-200 font-black">#01</div>
-                </div>
+    <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[3rem] shadow-2xl overflow-hidden">
+            <div class="bg-blue-600 p-10 text-white text-center">
+                <h3 class="text-3xl font-black italic mb-2 tracking-tighter">PREVIEW REPORT</h3>
+                <p class="text-blue-100 text-sm">系統已自動根據擇優與效期規則產出以下結果：</p>
             </div>
             <div class="p-10">
                 <div id="confirmList" class="space-y-4 mb-8">
                     <!-- 試算清單 -->
                 </div>
-                <div class="flex justify-between items-center bg-blue-50 p-6 rounded-3xl mb-10">
-                    <span class="text-blue-800 font-bold">總申報積分預計為：</span>
+                <div class="flex justify-between items-center bg-slate-50 p-6 rounded-3xl mb-8 border-2 border-dashed border-slate-200">
+                    <span class="text-slate-500 font-bold">預計總積分：</span>
                     <span id="modalTotal" class="text-5xl font-black text-blue-600">0.00</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="closeModal()" class="py-5 text-slate-400 font-bold hover:bg-slate-50 rounded-2xl transition">返回修改</button>
-                    <button id="finalSubmitBtn" onclick="submitToGas()" class="py-5 bg-blue-600 text-white font-bold rounded-2xl shadow-xl hover:bg-blue-700 transition">確認無誤送出</button>
+                    <button id="finalSubmitBtn" onclick="submitToGas()" class="py-5 bg-blue-600 text-white font-bold rounded-2xl shadow-xl hover:bg-blue-700 transition">確定無誤送出</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 設定哪些證照有期限 (hasExpiry: true/false)
+        // 配置資料：只有救生員有 hasExpiry
         const CONFIG = [
             {
                 id: "water",
-                title: "水上救生類",
+                title: "水上救生",
                 items: [
                     { name: "救生員", score: 0.35, hasExpiry: true },
-                    { name: "救生教練", score: 0.56, hasExpiry: true }
+                    { name: "救生教練", score: 0.56, hasExpiry: false }
                 ]
             },
             {
                 id: "swift",
-                title: "急流救援類",
+                title: "急流救援",
                 items: [
-                    { name: "急流救援訓練(40小時)", score: 0.56, hasExpiry: true },
-                    { name: "急流救援教官班(45小時)", score: 0.70, hasExpiry: true }
+                    { name: "急流救援訓練(40小時)", score: 0.56, hasExpiry: false },
+                    { name: "急流救援訓練教官班(45小時)", score: 0.70, hasExpiry: false }
                 ]
             },
             {
                 id: "dive",
-                title: "潛水救援類",
+                title: "潛水救援",
                 items: [
-                    { name: "救援潛水", score: 0.56, hasExpiry: false }, // 潛水證通常永久
+                    { name: "救援潛水", score: 0.56, hasExpiry: false },
                     { name: "潛水教官", score: 0.70, hasExpiry: false },
-                    { name: "公共安全潛水(82小時)", score: 0.70, hasExpiry: true } // 公安潛水通常需定期複訓
+                    { name: "公共安全潛水(82小時)", score: 0.70, hasExpiry: false }
                 ]
             },
             {
                 id: "drive",
-                title: "車輛駕駛類",
+                title: "車輛駕駛",
                 items: [
-                    { name: "大貨(客)車駕照", score: 0.70, hasExpiry: false }, // 駕照在申報中視為持有的永久能力
+                    { name: "大貨(客)車駕照", score: 0.70, hasExpiry: false },
                     { name: "聯結車駕照", score: 1.05, hasExpiry: false }
                 ]
             }
         ];
 
         function init() {
-            document.getElementById('currentTime').innerText = new Date().toLocaleDateString();
             const container = document.getElementById('mainForm');
-            
             CONFIG.forEach(cat => {
                 let html = `
-                    <div class="glass-card overflow-hidden shadow-lg border-l-4 border-blue-500">
-                        <div class="bg-slate-50/50 px-8 py-4 border-b flex justify-between items-center">
-                            <span class="font-black text-slate-400 text-xs uppercase tracking-widest">${cat.title}</span>
-                            <span class="text-[10px] font-bold text-blue-500">CATEGORY MAX ONLY</span>
+                    <div class="glass-card overflow-hidden shadow-lg border-b-4 border-blue-100">
+                        <div class="bg-slate-50 px-8 py-4 border-b flex justify-between items-center">
+                            <span class="font-black text-slate-400 text-xs tracking-widest uppercase">${cat.title}</span>
+                            <span class="badge-permanent">擇優取一項</span>
                         </div>
                         <div class="p-4 md:p-8 space-y-6">
                 `;
                 
                 cat.items.forEach(item => {
                     html += `
-                        <div class="item-row p-5 rounded-[1.5rem] bg-white" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}" data-expiry="${item.hasExpiry}">
+                        <div class="item-row p-5 rounded-3xl bg-white border-2 border-slate-50" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                                 <div class="flex items-center gap-4">
-                                    <input type="checkbox" onchange="updateCalc()" class="w-7 h-7 rounded-xl text-blue-600 cert-check focus:ring-0 cursor-pointer">
+                                    <input type="checkbox" onchange="updateCalc()" class="w-8 h-8 rounded-xl text-blue-600 cert-check cursor-pointer focus:ring-0">
                                     <div>
-                                        <h4 class="font-bold text-slate-800 text-lg">${item.name}</h4>
-                                        <p class="text-blue-500 font-black text-sm tracking-wide">+ ${item.score.toFixed(2)}</p>
+                                        <h4 class="font-bold text-slate-800">${item.name}</h4>
+                                        <p class="text-blue-500 font-black text-sm tracking-widest">+ ${item.score.toFixed(2)}</p>
                                     </div>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-6">
-                                    <div class="flex flex-col min-w-[140px]">
-                                        <span class="text-[10px] font-black text-slate-300 uppercase mb-1">有效期限判定</span>
-                                        ${item.hasExpiry ? 
-                                            `<input type="date" onchange="updateCalc()" class="cert-date border-2 border-slate-100 rounded-xl p-2 text-sm focus:border-blue-400 outline-none">` : 
-                                            `<div class="expiry-permanent text-center">永久有效</div>`
-                                        }
+                                    <div class="flex flex-col min-w-[160px]">
+                                        <span class="text-[10px] font-black text-slate-300 uppercase mb-1">有效期限</span>
+                                        ${item.hasExpiry ? `
+                                            <div class="flex items-center gap-2">
+                                                <input type="date" onchange="updateCalc()" class="cert-date border-2 border-slate-100 rounded-lg p-1 text-xs outline-none focus:border-blue-400 transition">
+                                                <label class="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer">
+                                                    <input type="checkbox" onchange="toggleDate(this)" class="no-expiry-check"> 無期限
+                                                </label>
+                                            </div>
+                                        ` : `<div class="badge-permanent">永久有效</div>`}
                                     </div>
                                     <div class="flex flex-col">
-                                        <span class="text-[10px] font-black text-slate-300 uppercase mb-1">佐證檔案上傳</span>
-                                        <input type="file" onchange="updateCalc()" class="cert-file text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-slate-100 file:text-slate-600 hover:file:bg-blue-50">
+                                        <span class="text-[10px] font-black text-slate-300 uppercase mb-1">佐證檔案</span>
+                                        <input type="file" onchange="updateCalc()" class="cert-file text-[10px] w-40 text-slate-400 file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-slate-100 file:text-slate-600 hover:file:bg-blue-50">
                                     </div>
                                 </div>
                             </div>
@@ -210,6 +199,14 @@
                 html += `</div></div>`;
                 container.innerHTML += html;
             });
+            updateCalc();
+        }
+
+        // 切換無期限選項
+        function toggleDate(el) {
+            const dateInput = el.closest('.item-row').querySelector('.cert-date');
+            dateInput.disabled = el.checked;
+            if (el.checked) dateInput.value = "";
             updateCalc();
         }
 
@@ -225,25 +222,26 @@
                 
                 rows.forEach(row => {
                     const isChecked = row.querySelector('.cert-check').checked;
-                    const hasExpiry = row.dataset.expiry === "true";
+                    const dateInput = row.querySelector('.cert-date');
+                    const noExpiry = row.querySelector('.no-expiry-check')?.checked;
                     const score = parseFloat(row.dataset.score);
                     
                     row.classList.remove('highest-glow', 'opacity-30');
                     
                     if (isChecked) {
-                        let isValid = true;
-                        if (hasExpiry) {
-                            const dateVal = row.querySelector('.cert-date').value;
-                            const expiry = dateVal ? new Date(dateVal) : null;
-                            if (!expiry || expiry < today) {
-                                isValid = false;
-                                row.querySelector('.cert-date').style.borderColor = "#f87171";
+                        let valid = true;
+                        // 只有救生員需要檢查日期且非「無期限」
+                        if (dateInput && !noExpiry) {
+                            const date = new Date(dateInput.value);
+                            if (!dateInput.value || date < today) {
+                                valid = false;
+                                dateInput.style.borderColor = "#f87171";
                             } else {
-                                row.querySelector('.cert-date').style.borderColor = "#e2e8f0";
+                                dateInput.style.borderColor = "#3b82f6";
                             }
                         }
 
-                        if (isValid && score > catMax) {
+                        if (valid && score > catMax) {
                             catMax = score;
                             catWinner = row;
                         }
@@ -258,14 +256,12 @@
                 }
                 total += catMax;
             });
-
             document.getElementById('floatingScore').innerText = total.toFixed(2);
         }
 
         function prepareConfirmation() {
-            const idCard = document.getElementById('idCard').value;
             const name = document.getElementById('name').value;
-            if(!idCard || !name) return alert("請填寫基本資料！");
+            if(!name) return alert("請填寫姓名！");
 
             const list = document.getElementById('confirmList');
             list.innerHTML = "";
@@ -276,24 +272,26 @@
             CONFIG.forEach(cat => {
                 let best = { name: "未持有或無有效證照", score: 0 };
                 document.querySelectorAll(`.item-row[data-cat="${cat.id}"]`).forEach(row => {
-                    if (row.querySelector('.cert-check').checked) {
-                        const hasExpiry = row.dataset.expiry === "true";
-                        const score = parseFloat(row.dataset.score);
-                        let isValid = true;
-                        if (hasExpiry) {
-                            const date = row.querySelector('.cert-date').value;
-                            if (!date || new Date(date) < today) isValid = false;
+                    const isChecked = row.querySelector('.cert-check').checked;
+                    const dateInput = row.querySelector('.cert-date');
+                    const noExpiry = row.querySelector('.no-expiry-check')?.checked;
+                    const score = parseFloat(row.dataset.score);
+
+                    let valid = true;
+                    if (isChecked) {
+                        if (dateInput && !noExpiry) {
+                            if (!dateInput.value || new Date(dateInput.value) < today) valid = false;
                         }
-                        if (isValid && score > best.score) {
+                        if (valid && score > best.score) {
                             best = { name: row.dataset.name, score: score };
                         }
                     }
                 });
 
                 list.innerHTML += `
-                    <div class="flex justify-between items-center p-5 bg-slate-50 rounded-2xl">
+                    <div class="flex justify-between items-center p-5 bg-slate-50 rounded-2xl border border-slate-100">
                         <div>
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-tighter">${cat.title}</p>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${cat.title}</p>
                             <p class="font-bold text-slate-700">${best.name}</p>
                         </div>
                         <p class="text-xl font-black text-blue-600">+${best.score.toFixed(2)}</p>
@@ -311,7 +309,7 @@
         async function submitToGas() {
             const btn = document.getElementById('finalSubmitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-2"></i>傳送中...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>傳送中...';
 
             const payload = {
                 idCard: document.getElementById('idCard').value,
@@ -320,30 +318,31 @@
                 certificates: []
             };
 
-            const selectedItems = document.querySelectorAll('.cert-check:checked');
-            for(let check of selectedItems) {
+            for (let check of document.querySelectorAll('.cert-check:checked')) {
                 const row = check.closest('.item-row');
                 const fileInput = row.querySelector('.cert-file');
                 const dateInput = row.querySelector('.cert-date');
+                const noExpiry = row.querySelector('.no-expiry-check')?.checked;
+
                 const fileData = fileInput.files[0] ? await toBase64(fileInput.files[0]) : null;
 
                 payload.certificates.push({
                     category: row.dataset.cat,
                     itemName: row.dataset.name,
                     score: row.dataset.score,
-                    expiryDate: dateInput ? dateInput.value : "永久有效",
+                    expiryDate: noExpiry ? "無期限" : (dateInput ? dateInput.value : "永久有效"),
                     fileName: fileInput.files[0]?.name || "",
                     fileBase64: fileData
                 });
             }
 
-            const GAS_URL = "你的GAS網址"; 
+            const GAS_URL = "你的GAS佈署網址"; 
             try {
                 const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
                 const json = await res.json();
                 if(json.result === "success") { alert("申報成功！"); location.reload(); }
-                else { alert("失敗：" + json.message); }
-            } catch(e) { alert("連線錯誤"); }
+                else { alert("錯誤：" + json.message); }
+            } catch(e) { alert("連線失敗"); }
             btn.disabled = false;
             btn.innerText = "確認無誤送出";
         }
