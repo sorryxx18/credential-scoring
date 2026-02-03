@@ -327,7 +327,7 @@
                 });
             }
 
-            const GAS_URL = "https://script.google.com/macros/s/AKfycbyDcXG64W4RhFSGp0bT5eTkq1PXI_E8tm7bznZL8CoqWv_YMxdJLzT1dF3VNK-1Ahgc0Q/exec"; 
+            const GAS_URL = "https://script.google.com/macros/s/AKfycbzZSGCYojfi6NS8jzNv4pbuE3h2n3nfK8cJuAgekkKgbwTUgWjdTbvaKWAdGo8Twgpqog/exec"; 
             try {
                 const res = await fetch(GAS_URL, { method: "POST", body: JSON.stringify(payload) });
                 const json = await res.json();
