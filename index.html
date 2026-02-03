@@ -335,42 +335,75 @@
             document.getElementById('floatingScore').innerText = total.toFixed(2);
         }
 
-        function prepareConfirmation() {
-            const bigVal = document.getElementById('bigBrigade').value;
-            const hqVal = document.getElementById('hqDept').value;
-            const smallVal = document.getElementById('smallUnit').value;
-            const name = document.getElementById('name').value;
+       // --- 修改後的預覽/驗證邏輯 ---
+function prepareConfirmation() {
+    const bigVal = document.getElementById('bigBrigade').value;
+    const hqVal = document.getElementById('hqDept').value;
+    const smallVal = document.getElementById('smallUnit').value;
+    const name = document.getElementById('name').value;
 
-            if (!name) return alert("請填寫姓名！");
-            if (!bigVal) return alert("請選擇所屬大隊或局本部！");
-            if (bigVal === "局本部" && !hqVal) return alert("請填寫局本部科室名稱！");
-            if (bigVal !== "局本部" && !smallVal) return alert("請選擇所屬分隊！");
+    // 1. 基本資料驗證
+    if (!name) return alert("請填寫姓名！");
+    if (!bigVal) return alert("請選擇所屬大隊或局本部！");
+    if (bigVal === "局本部" && !hqVal) return alert("請填寫局本部科室名稱！");
+    if (bigVal !== "局本部" && !smallVal) return alert("請選擇所屬分隊！");
 
-            const list = document.getElementById('confirmList'); list.innerHTML = "";
-            let finalTotal = 0;
+    const list = document.getElementById('confirmList');
+    list.innerHTML = "";
+    let finalTotal = 0;
+    let validationFailed = false;
 
-            CONFIG.forEach(cat => {
-                let best = { name: "無相關證照", score: 0 };
-                if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
-                    document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
-                        if (row.querySelector('.cert-check').checked) {
-                            const dateInput = row.querySelector('.cert-date');
-                            const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-                            let valid = true;
-                            if (dateInput && !isPerm) {
-                                if (!dateInput.value || new Date(dateInput.value) < new Date().setHours(0,0,0,0)) valid = false;
-                            }
-                            if (valid && parseFloat(row.dataset.score) > best.score) best = { name: row.dataset.name, score: parseFloat(row.dataset.score) };
-                        }
-                    });
+    CONFIG.forEach(cat => {
+        let best = { name: "無相關證照", score: 0 };
+        const noCertChecked = document.getElementById(`noCertCheck_${cat.id}`).checked;
+
+        if (!noCertChecked) {
+            const rows = document.querySelectorAll(`.cert-item-${cat.id}`);
+            rows.forEach(row => {
+                const isChecked = row.querySelector('.cert-check').checked;
+                if (isChecked) {
+                    const fileInput = row.querySelector('.cert-file');
+                    const certName = row.dataset.name;
+                    
+                    // --- 強制上傳檢查 ---
+                    if (fileInput.files.length === 0) {
+                        alert(`【${cat.title}】區塊：\n您勾選了「${certName}」，請務必上傳證照檔案！`);
+                        validationFailed = true;
+                        return;
+                    }
+
+                    // 效期檢查 (僅救生員)
+                    const dateInput = row.querySelector('.cert-date');
+                    const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+                    let valid = true;
+                    if (dateInput && !isPerm) {
+                        if (!dateInput.value || new Date(dateInput.value) < new Date().setHours(0,0,0,0)) valid = false;
+                    }
+                    
+                    if (valid && parseFloat(row.dataset.score) > best.score) {
+                        best = { name: certName, score: parseFloat(row.dataset.score) };
+                    }
                 }
-                list.innerHTML += `<div class="flex justify-between items-center p-5 bg-slate-50 rounded-2xl border border-slate-100"><div><p class="text-[10px] font-black text-slate-300 uppercase">${cat.title}</p><p class="font-bold text-slate-700">${best.name}</p></div><p class="text-xl font-black text-blue-600">+${best.score.toFixed(2)}</p></div>`;
-                finalTotal += best.score;
             });
-
-            document.getElementById('modalTotal').innerText = finalTotal.toFixed(2);
-            document.getElementById('modal').classList.remove('hidden');
         }
+        
+        if (validationFailed) return;
+
+        list.innerHTML += `<div class="flex justify-between items-center p-5 bg-slate-50 rounded-2xl border border-slate-100">
+            <div>
+                <p class="text-[10px] font-black text-slate-400 uppercase">${cat.title}</p>
+                <p class="font-bold text-slate-700">${best.name}</p>
+            </div>
+            <p class="text-xl font-black text-blue-600">+${best.score.toFixed(2)}</p>
+        </div>`;
+        finalTotal += best.score;
+    });
+
+    if (validationFailed) return; // 驗證失敗則不開啟彈窗
+
+    document.getElementById('modalTotal').innerText = finalTotal.toFixed(2);
+    document.getElementById('modal').classList.remove('hidden');
+}
 
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
