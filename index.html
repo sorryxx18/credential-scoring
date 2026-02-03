@@ -3,146 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>專業技術積分申報系統</title>
-    <!-- 使用 Tailwind CSS 提升視覺質感 -->
+    <title>專業技術能力積分申報系統</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f3f4f6; }
-        .category-card:hover { border-color: #3b82f6; }
-        .score-badge { transition: all 0.3s ease; }
-        .highest-tag { background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 1.5rem; }
+        .category-group:hover { transform: translateY(-2px); transition: all 0.3s ease; }
+        .highest-glow { border: 2px solid #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+        /* 隱藏滾動條但保持功能 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="pb-20">
+<body class="p-4 md:p-8">
 
-    <!-- Header -->
-    <nav class="bg-blue-700 text-white shadow-lg p-4 mb-8">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold"><i class="fa-solid fa-shield-halved mr-2"></i>專業技術能力積分申報</h1>
-            <span class="text-sm opacity-80">台北市政府消防局標準</span>
-        </div>
-    </nav>
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2 italic">Professional Skills Scoring</h1>
+            <p class="text-slate-500 font-medium">公務人員陞任評分標準表 - 專業能力計分</p>
+        </header>
 
-    <div class="container mx-auto px-4 max-w-4xl">
-        
-        <!-- 規則說明區 -->
-        <div class="bg-white border-l-4 border-blue-500 p-4 mb-6 shadow-sm rounded-r-lg">
-            <h2 class="font-bold text-blue-800 mb-2"><i class="fa-solid fa-circle-info mr-2"></i>計分規則說明</h2>
-            <ul class="text-sm text-gray-600 space-y-1">
-                <li>1. 系統劃分為四大類別，<span class="text-red-600 font-bold">每一類別僅採計該區分數最高之一項</span>。</li>
-                <li>2. 證照必須在<span class="text-red-600 font-bold">有效期限內</span>方可計分。</li>
-                <li>3. 勾選項目後請務必上傳對應證件影本 (PDF/JPG)。</li>
-            </ul>
-        </div>
-
-        <!-- 個人資訊 -->
-        <div class="bg-white p-6 rounded-xl shadow-md mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">身分證字號</label>
-                <input type="text" id="idCard" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border" placeholder="E123456789">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">姓名</label>
-                <input type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border" placeholder="王小明">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">服務單位</label>
-                <input type="text" id="unit" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 border" placeholder="秘書室">
+        <!-- 引導說明卡 -->
+        <div class="glass-card p-6 mb-8 shadow-xl border-l-8 border-blue-600">
+            <h2 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                <i class="fa-solid fa-circle-exclamation text-blue-600 mr-2"></i>申報須知與計分邏輯
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6 text-sm text-slate-600">
+                <div class="space-y-2">
+                    <p class="flex items-start"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded mr-2 font-bold">1</span> 同一類別（如水上救生）僅採計該區分數最高之一項。</p>
+                    <p class="flex items-start"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded mr-2 font-bold">2</span> 證照必須填寫有效期限，<span class="text-red-500 font-bold underline">已過期者不予計分</span>。</p>
+                </div>
+                <div class="space-y-2">
+                    <p class="flex items-start"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded mr-2 font-bold">3</span> 每一項勾選之證照皆必須上傳佐證檔案。</p>
+                    <p class="flex items-start"><span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded mr-2 font-bold">4</span> 無任何證照者，請直接填寫基本資料送出（積分為 0）。</p>
+                </div>
             </div>
         </div>
 
-        <!-- 證照填寫區 -->
-        <div id="formContainer" class="space-y-6">
-            <!-- 類別卡片模板會由 JS 動態生成 -->
+        <!-- 基本資料 -->
+        <section class="glass-card p-8 shadow-lg mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="relative">
+                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">身分證字號</label>
+                    <input type="text" id="idCard" class="w-full bg-slate-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-blue-400 transition" placeholder="A123456789">
+                </div>
+                <div class="relative">
+                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">姓名</label>
+                    <input type="text" id="name" class="w-full bg-slate-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-blue-400 transition" placeholder="請輸入姓名">
+                </div>
+                <div class="relative">
+                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">服務單位</label>
+                    <input type="text" id="unit" class="w-full bg-slate-50 border-none rounded-xl p-3 focus:ring-2 focus:ring-blue-400 transition" placeholder="單位名稱">
+                </div>
+            </div>
+        </section>
+
+        <!-- 證照區域 -->
+        <div id="categoryContainer" class="space-y-8">
+            <!-- 由 JS 動態生成項目 -->
         </div>
 
         <!-- 底部統計列 -->
-        <div class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-2xl p-4 z-50">
-            <div class="container mx-auto max-w-4xl flex justify-between items-center">
-                <div class="flex flex-col">
-                    <span class="text-gray-500 text-sm">預計獲得積分</span>
-                    <span class="text-3xl font-bold text-blue-600" id="totalScoreDisplay">0.00</span>
-                </div>
-                <button onclick="submitForm()" id="submitBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
-                    確認送出申報
-                </button>
-            </div>
+        <div class="mt-12 mb-24 flex justify-center">
+            <button onclick="prepareConfirmation()" class="group relative bg-slate-900 text-white px-12 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:bg-blue-700 transition-all active:scale-95">
+                <i class="fa-solid fa-calculator mr-2 group-hover:rotate-12 transition"></i> 進入試算預覽
+            </button>
         </div>
-
     </div>
 
-    <!-- 成功與錯誤提示 -->
-    <div id="toast" class="fixed top-5 right-5 hidden z-50 p-4 rounded-lg shadow-xl text-white font-bold"></div>
+    <!-- 懸浮分數球 -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <div class="bg-white p-4 rounded-3xl shadow-2xl border-4 border-blue-600 flex flex-col items-center min-w-[100px]">
+            <span class="text-xs font-bold text-slate-400">目前預估</span>
+            <span id="floatingScore" class="text-3xl font-black text-blue-600 tracking-tighter">0.00</span>
+            <span class="text-[10px] font-bold text-slate-400 uppercase">Points</span>
+        </div>
+    </div>
+
+    <!-- 試算確認彈窗 (Modal) -->
+    <div id="modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="bg-slate-50 p-8 border-b">
+                <h3 class="text-2xl font-black text-slate-800 italic">SCORE CHECKER</h3>
+                <p class="text-slate-500 text-sm">系統已根據擇優與效期規則自動試算：</p>
+            </div>
+            <div class="p-8">
+                <div id="confirmList" class="space-y-3 mb-8 max-h-[40vh] overflow-y-auto">
+                    <!-- 試算清單 -->
+                </div>
+                <div class="flex justify-between items-center mb-8 px-2">
+                    <span class="text-lg font-bold text-slate-500">最終申報積分：</span>
+                    <span id="modalTotal" class="text-4xl font-black text-blue-600">0.00</span>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="closeModal()" class="flex-1 py-4 text-slate-500 font-bold hover:bg-slate-100 rounded-2xl transition">返回修改</button>
+                    <button id="finalSubmitBtn" onclick="submitToGas()" class="flex-1 py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 transition">確認送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        const GAS_URL = "你的GAS佈署網址"; // <--- 請替換
-
-        // 證照邏輯結構
-        const config = [
+        // 配置資料
+        const CONFIG = [
             {
                 id: "water",
                 title: "水上救生",
+                color: "blue",
                 items: [
-                    { id: "water_1", name: "救生員", score: 0.35 },
-                    { id: "water_2", name: "救生教練", score: 0.56 }
+                    { name: "救生員", score: 0.35 },
+                    { name: "救生教練", score: 0.56 }
                 ]
             },
             {
                 id: "swift",
                 title: "急流救援",
+                color: "cyan",
                 items: [
-                    { id: "swift_1", name: "急流救援訓練(40H)", score: 0.56 },
-                    { id: "swift_2", name: "急流救援教官班(45H)", score: 0.70 }
+                    { name: "急流救援訓練(40小時)", score: 0.56 },
+                    { name: "急流救援訓練教官班(45小時)", score: 0.70 }
                 ]
             },
             {
                 id: "dive",
                 title: "潛水救援",
+                color: "indigo",
                 items: [
-                    { id: "dive_1", name: "救援潛水", score: 0.56 },
-                    { id: "dive_2", name: "潛水教官", score: 0.70 },
-                    { id: "dive_3", name: "公共安全潛水(82H)", score: 0.70 }
+                    { name: "救援潛水", score: 0.56 },
+                    { name: "潛水教官", score: 0.70 },
+                    { name: "公共安全潛水(82小時)", score: 0.70 }
                 ]
             },
             {
                 id: "drive",
                 title: "車輛駕駛",
+                color: "slate",
                 items: [
-                    { id: "drive_1", name: "大貨(客)車駕照", score: 0.70 },
-                    { id: "drive_2", name: "聯結車駕照", score: 1.05 }
+                    { name: "大貨(客)車駕照", score: 0.70 },
+                    { name: "聯結車駕照", score: 1.05 }
                 ]
             }
         ];
 
-        // 動態生成 HTML
-        function renderForm() {
-            const container = document.getElementById('formContainer');
-            config.forEach(cat => {
+        // 渲染畫面
+        function init() {
+            const container = document.getElementById('categoryContainer');
+            CONFIG.forEach(cat => {
                 let html = `
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden category-card border-2 border-transparent transition-all">
-                        <div class="bg-gray-50 p-4 border-b flex justify-between items-center">
-                            <h3 class="font-bold text-gray-700">${cat.title}</h3>
-                            <span class="text-xs text-blue-500 bg-blue-50 px-2 py-1 rounded">最高取一項</span>
+                    <div class="category-group glass-card overflow-hidden shadow-lg border-b-4 border-${cat.color}-500">
+                        <div class="bg-slate-50 px-6 py-4 flex justify-between items-center border-b">
+                            <h3 class="font-black text-slate-700 tracking-wider">${cat.title} <span class="text-[10px] ml-2 font-normal text-slate-400 italic">PICK HIGHEST</span></h3>
+                            <div class="w-8 h-8 rounded-full bg-${cat.color}-100 flex items-center justify-center text-${cat.color}-600">
+                                <i class="fa-solid fa-certificate text-xs"></i>
+                            </div>
                         </div>
-                        <div class="p-6 space-y-6">
+                        <div class="p-6 space-y-4">
                 `;
                 cat.items.forEach(item => {
+                    const itemId = btoa(encodeURIComponent(item.name)).replace(/=/g, '');
                     html += `
-                        <div class="certificate-item" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
+                        <div class="item-row p-4 rounded-2xl transition-all border-2 border-transparent hover:bg-slate-50" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div class="flex items-center space-x-3">
-                                    <input type="checkbox" onchange="updateUI()" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 cert-checkbox">
-                                    <span class="font-medium text-gray-800">${item.name} <span class="text-blue-500 ml-1">(${item.score}分)</span></span>
-                                    <span class="highest-badge hidden"></span>
-                                </div>
-                                <div class="flex flex-col sm:flex-row gap-2 items-center text-sm">
-                                    <div class="flex items-center">
-                                        <label class="mr-2 text-gray-500">到期日:</label>
-                                        <input type="date" onchange="updateUI()" class="border rounded p-1 text-gray-700 cert-date">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" onchange="updateCalc()" class="w-6 h-6 rounded-lg text-blue-600 cert-check focus:ring-0">
+                                    <div>
+                                        <p class="font-bold text-slate-700">${item.name}</p>
+                                        <p class="text-xs font-bold text-blue-500">+ ${item.score.toFixed(2)} Points</p>
                                     </div>
-                                    <input type="file" onchange="updateUI()" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cert-file">
+                                </div>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] font-black text-slate-400 ml-1">有效期限</span>
+                                        <input type="date" onchange="updateCalc()" class="cert-date text-sm bg-white border-slate-200 rounded-lg p-1 px-2 focus:ring-1 focus:ring-blue-400">
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] font-black text-slate-400 ml-1">佐證上傳</span>
+                                        <input type="file" onchange="updateCalc()" class="cert-file text-[10px] w-40 text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-[10px] file:bg-slate-200 file:text-slate-700 hover:file:bg-slate-300">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -151,116 +191,166 @@
                 html += `</div></div>`;
                 container.innerHTML += html;
             });
+            updateCalc();
         }
 
-        // 更新 UI、檢查日期、計算分數
-        function updateUI() {
-            let totalScore = 0;
+        // 核心試算與 UI 更新
+        function updateCalc() {
             const today = new Date();
+            today.setHours(0,0,0,0);
+            let total = 0;
 
-            config.forEach(cat => {
+            CONFIG.forEach(cat => {
                 let catMax = 0;
-                let bestItem = null;
-
-                // 找出該區塊勾選且「有效」且「分數最高」的
-                const items = document.querySelectorAll(`.certificate-item[data-cat="${cat.id}"]`);
-                items.forEach(el => {
-                    const checkbox = el.querySelector('.cert-checkbox');
-                    const dateInput = el.querySelector('.cert-date');
-                    const badge = el.querySelector('.highest-badge');
-                    const score = parseFloat(el.dataset.score);
+                let catSelectedName = "";
+                const rows = document.querySelectorAll(`.item-row[data-cat="${cat.id}"]`);
+                
+                rows.forEach(row => {
+                    const isChecked = row.querySelector('.cert-check').checked;
+                    const dateVal = row.querySelector('.cert-date').value;
+                    const score = parseFloat(row.dataset.score);
+                    const expiry = dateVal ? new Date(dateVal) : null;
                     
-                    badge.classList.add('hidden'); // 先隱藏
+                    row.classList.remove('highest-glow', 'bg-blue-50/50', 'opacity-40');
                     
-                    if (checkbox.checked) {
-                        const expiryDate = new Date(dateInput.value);
-                        // 日期檢查邏輯
-                        if (!dateInput.value) {
-                            checkbox.parentElement.classList.add('text-orange-500');
-                        } else if (expiryDate < today) {
-                            checkbox.parentElement.classList.add('text-red-500');
-                            checkbox.parentElement.classList.remove('text-orange-500');
-                            return; // 過期不計分
-                        } else {
-                            checkbox.parentElement.classList.remove('text-red-500', 'text-orange-500');
+                    if (isChecked) {
+                        if (expiry && expiry < today) {
+                            // 過期
+                            row.querySelector('.cert-date').classList.add('text-red-500', 'font-bold');
+                        } else if (expiry && expiry >= today) {
+                            row.querySelector('.cert-date').classList.remove('text-red-500');
                             if (score > catMax) {
                                 catMax = score;
-                                bestItem = badge;
+                                catSelectedName = row.dataset.name;
                             }
                         }
                     }
                 });
 
-                if (bestItem) {
-                    bestItem.innerHTML = `<span class="highest-tag">最高分採計</span>`;
-                    bestItem.classList.remove('hidden');
+                // 高亮顯示該類別最終被採計的那一項
+                if (catMax > 0) {
+                    rows.forEach(row => {
+                        if (row.dataset.name === catSelectedName) {
+                            row.classList.add('highest-glow', 'bg-blue-50/50');
+                        } else if (row.querySelector('.cert-check').checked) {
+                            row.classList.add('opacity-40'); // 雖然勾選但分數較低或過期的淡化
+                        }
+                    });
                 }
-                totalScore += catMax;
+                total += catMax;
             });
 
-            document.getElementById('totalScoreDisplay').innerText = totalScore.toFixed(2);
+            document.getElementById('floatingScore').innerText = total.toFixed(2);
         }
 
-        async function submitForm() {
-            const btn = document.getElementById('submitBtn');
+        // 準備預覽視窗
+        function prepareConfirmation() {
             const idCard = document.getElementById('idCard').value;
             const name = document.getElementById('name').value;
-            if(!idCard || !name) return showToast("請填寫基本資料", "error");
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>上傳中...';
-
-            const payload = {
-                idCard, name, unit: document.getElementById('unit').value,
-                certificates: []
-            };
-
-            const checkedItems = document.querySelectorAll('.cert-checkbox:checked');
-            
-            for(let check of checkedItems) {
-                const parent = check.closest('.certificate-item');
-                const fileInput = parent.querySelector('.cert-file');
-                const dateVal = parent.querySelector('.cert-date').value;
-                
-                if(!dateVal || !fileInput.files[0]) {
-                    showToast(`請檢查 ${parent.dataset.name} 的日期與檔案`, "error");
-                    btn.disabled = false;
-                    btn.innerText = '確認送出申報';
-                    return;
-                }
-
-                const fileBase64 = await toBase64(fileInput.files[0]);
-                payload.certificates.push({
-                    category: parent.dataset.cat,
-                    itemName: parent.dataset.name,
-                    score: parent.dataset.score,
-                    expiryDate: dateVal,
-                    fileName: fileInput.files[0].name,
-                    fileBase64: fileBase64
-                });
-            }
-
-            if(payload.certificates.length === 0) {
-                showToast("請至少選擇一項證照", "error");
-                btn.disabled = false;
-                btn.innerText = '確認送出申報';
+            if(!idCard || !name) {
+                alert("請填寫基本資料（姓名與身分證字號）");
                 return;
             }
 
+            const list = document.getElementById('confirmList');
+            list.innerHTML = "";
+            let finalTotal = 0;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            CONFIG.forEach(cat => {
+                let catBest = { name: "無", score: 0 };
+                const rows = document.querySelectorAll(`.item-row[data-cat="${cat.id}"]`);
+                
+                rows.forEach(row => {
+                    const check = row.querySelector('.cert-check').checked;
+                    const date = row.querySelector('.cert-date').value;
+                    const score = parseFloat(row.dataset.score);
+                    const expiry = date ? new Date(date) : null;
+
+                    if (check && expiry && expiry >= today) {
+                        if (score > catBest.score) {
+                            catBest = { name: row.dataset.name, score: score };
+                        }
+                    }
+                });
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100";
+                itemDiv.innerHTML = `
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${cat.title}</p>
+                        <p class="font-bold text-slate-700">${catBest.name}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-lg font-black text-blue-600">+${catBest.score.toFixed(2)}</p>
+                    </div>
+                `;
+                list.appendChild(itemDiv);
+                finalTotal += catBest.score;
+            });
+
+            document.getElementById('modalTotal').innerText = finalTotal.toFixed(2);
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+        // 送出資料到 GAS
+        async function submitToGas() {
+            const btn = document.getElementById('finalSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 上傳中';
+
+            const payload = {
+                idCard: document.getElementById('idCard').value,
+                name: document.getElementById('name').value,
+                unit: document.getElementById('unit').value,
+                certificates: []
+            };
+
+            const checkedRows = document.querySelectorAll('.cert-check:checked');
+            
+            for (let check of checkedRows) {
+                const row = check.closest('.item-row');
+                const fileInput = row.querySelector('.cert-file');
+                const dateVal = row.querySelector('.cert-date').value;
+
+                let fileData = null;
+                if (fileInput.files.length > 0) {
+                    fileData = await toBase64(fileInput.files[0]);
+                }
+
+                payload.certificates.push({
+                    category: row.dataset.cat,
+                    itemName: row.dataset.name,
+                    score: row.dataset.score,
+                    expiryDate: dateVal,
+                    fileName: fileInput.files[0]?.name || "",
+                    fileBase64: fileData
+                });
+            }
+
+            // 請更換為您的 GAS Web App URL
+            const GAS_URL = "你的GAS佈署網址";
+
             try {
-                const resp = await fetch(GAS_URL, {
-                    method: 'POST',
+                const response = await fetch(GAS_URL, {
+                    method: "POST",
                     body: JSON.stringify(payload)
                 });
-                const result = await resp.json();
-                if(result.result === 'success') {
-                    showToast("申報成功！頁面將重整", "success");
-                    setTimeout(() => location.reload(), 2000);
+                const res = await response.json();
+                if (res.result === "success") {
+                    alert("申報成功！");
+                    location.reload();
+                } else {
+                    alert("錯誤：" + res.message);
                 }
-            } catch(e) {
-                showToast("上傳失敗，請稍後再試", "error");
+            } catch (e) {
+                alert("連線失敗，請檢查網路或 GAS 設定");
+            } finally {
                 btn.disabled = false;
-                btn.innerText = '確認送出申報';
+                btn.innerText = "確認送出";
             }
         }
 
@@ -268,17 +358,10 @@
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = reject;
+            reader.onerror = error => reject(error);
         });
 
-        function showToast(msg, type) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.className = `fixed top-5 right-5 z-50 p-4 rounded-lg shadow-xl text-white font-bold block ${type==='success'?'bg-green-500':'bg-red-500'}`;
-            setTimeout(() => t.classList.add('hidden'), 3000);
-        }
-
-        renderForm();
+        init();
     </script>
 </body>
 </html>
