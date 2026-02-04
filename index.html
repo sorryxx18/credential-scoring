@@ -24,7 +24,7 @@
 </head>
 <body class="p-2 md:p-10 text-slate-800">
 
-    <div class="max-w-5xl mx-auto">
+    <div id="app" class="max-w-5xl mx-auto">
         <!-- Header -->
         <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
             <div class="flex items-center gap-4">
@@ -50,12 +50,19 @@
             <div class="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm text-slate-600 leading-relaxed font-medium">
                 <div class="space-y-3">
                     <p class="flex items-start gap-2"><i class="fa-solid fa-star text-amber-500 mt-1"></i><span><strong>擇優採計：</strong> 同一類別僅採計<strong>分數最高</strong>的一項，不累加。</span></p>
-                    <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-blue-500 mt-1"></i><span><strong>效期判定：</strong> 僅救生員需填到期日。注意 ! 過期計為 0 分。</span></p>
+                    <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-blue-500 mt-1"></i><span><strong>效期判定：</strong> 救生員需填到期日，<span class="text-red-600 font-bold">過期自動計為 0 分</span>。</span></p>
                 </div>
                 <div class="space-y-3">
-                    <p class="flex items-start gap-2"><i class="fa-solid fa-file-arrow-up text-red-500 mt-1"></i><span><strong>附件必要：</strong> 勾選項目後<span class="text-red-600 font-bold underline">必須上傳檔案</span>，否則無法送出。</span></p>
+                    <p class="flex items-start gap-2"><i class="fa-solid fa-file-arrow-up text-red-500 mt-1"></i><span><strong>附件必要：</strong> 勾選後<span class="text-red-600 font-bold underline">必須上傳檔案</span>，否則無法送出。</span></p>
                     <p class="flex items-start gap-2"><i class="fa-solid fa-user-shield text-emerald-500 mt-1"></i><span><strong>無證申報：</strong> 若無相關證照，請於該區勾選「無相關證照」。</span></p>
                 </div>
+            </div>
+            <!-- 管理者聯絡資訊 -->
+            <div class="mt-6 pt-4 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-2">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Support Contact</p>
+                <a href="mailto:tfd_training@mail.taipei.gov.tw" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-bold text-sm">
+                    <i class="fa-solid fa-envelope-open-text mr-2"></i> 填報有疑義？點此聯繫訓練中心承辦人
+                </a>
             </div>
         </div>
 
@@ -134,6 +141,31 @@
         </div>
     </div>
 
+    <!-- 成功提交畫面 (預設隱藏) -->
+    <div id="successPage" class="hidden fixed inset-0 bg-slate-50 z-[60] flex items-center justify-center p-4 text-slate-800">
+        <div class="max-w-md w-full text-center">
+            <div class="bg-white p-10 rounded-[3rem] shadow-2xl border-2 border-emerald-100">
+                <div class="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-solid fa-check text-4xl"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tighter">申報資料已送出</h2>
+                <p class="text-slate-500 font-medium mb-8">您的證照積分已成功傳送至後台，請靜候訓練中心審核。</p>
+                
+                <div class="bg-slate-50 rounded-2xl p-6 text-left mb-8 space-y-2 border border-slate-100">
+                    <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">Submission Details</p>
+                    <p class="text-sm"><strong>姓名：</strong><span id="resName" class="text-slate-600 font-bold"></span></p>
+                    <p class="text-sm"><strong>時間：</strong><span id="resTime" class="text-slate-600 font-bold"></span></p>
+                    <p class="text-sm text-emerald-600"><strong>狀態：</strong> 已完成異地備份儲存</p>
+                </div>
+                
+                <button onclick="location.reload()" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-lg">
+                    關閉並返回
+                </button>
+                <p class="mt-4 text-[10px] text-slate-300 font-bold uppercase tracking-tighter">Taipei Fire Department Training Center</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         const AUDIT_UNITS = {
             "第一大隊": { "本部": ["第一救災救護大隊"], "中正中隊": ["中正中隊", "華山分隊", "泉州分隊", "古亭分隊", "城中分隊"], "萬華中隊": ["萬華中隊", "雙園分隊", "龍山分隊"], "文山中隊": ["文山中隊", "萬芳分隊", "景美分隊", "木柵分隊", "寶橋分隊"] },
@@ -142,7 +174,6 @@
             "第四大隊": { "本部": ["第四救災救護大隊"], "大同中隊": ["大同中隊", "建成分隊", "延平分隊", "大同分隊"], "士林中隊": ["士林中隊", "山仔后分隊", "天母分隊", "福安分隊", "社子分隊", "劍潭分隊", "雙溪分隊"], "北投中隊": ["北投中隊", "陽明山分隊", "光明分隊", "關渡分隊", "石牌分隊", "秀山分隊"] }
         };
 
-        // 更新後的證照配置 (包含新增的三大類別)
         const CONFIG = [
             { id: "water", title: "水上救生", items: [{ name: "救生員", score: 0.35, hasDate: true }, { name: "救生教練", score: 0.56, hasDate: false }] },
             { id: "swift", title: "急流救援", items: [{ name: "急流救援訓練(40小時)", score: 0.56, hasDate: false }, { name: "急流救援訓練教官班(45小時)", score: 0.70, hasDate: false }] },
@@ -273,34 +304,29 @@
             CONFIG.forEach(cat => {
                 let best = { name: "無相關證照", score: 0 };
                 if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
-                   // --- 這是修改後的代碼 ---
-document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
-    if (row.querySelector('.cert-check').checked) {
-        // 1. 先檢查有沒有過期
-        const dateIn = row.querySelector('.cert-date');
-        const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-        const today = new Date(); today.setHours(0,0,0,0);
-        
-        let isValid = true;
-        if (dateIn && !isPerm) {
-            // 如果沒填日期，或日期早於今天，視為無效
-            if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
-        }
+                    document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
+                        if (row.querySelector('.cert-check').checked) {
+                            // 效期判斷
+                            const dateIn = row.querySelector('.cert-date');
+                            const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+                            const today = new Date(); today.setHours(0,0,0,0);
+                            let isValid = true;
+                            if (dateIn && !isPerm) {
+                                if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
+                            }
+                            if (!isValid) return; // 過期則不列入計分
 
-        if (!isValid) return; // 過期就跳過，不列入計算
+                            // 檔案上傳檢查
+                            if (row.querySelector('.cert-file').files.length === 0) {
+                                alert(`【${cat.title}】區塊勾選了「${row.dataset.name}」，但未上傳證明檔案！`);
+                                stop = true;
+                                return;
+                            }
 
-        // 2. 檢查有沒有傳檔案
-        if (row.querySelector('.cert-file').files.length === 0) {
-            alert(`【${cat.title}】區塊勾選了「${row.dataset.name}」，但未上傳證明檔案！`);
-            stop = true;
-            return;
-        }
-
-        // 3. 擇優採計
-        const score = parseFloat(row.dataset.score);
-        if (score > best.score) best = { name: row.dataset.name, score: score };
-    }
-});
+                            const score = parseFloat(row.dataset.score);
+                            if (score > best.score) best = { name: row.dataset.name, score: score };
+                        }
+                    });
                 }
                 if (stop) return;
                 list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${best.name}</b></span><span class="text-blue-600 font-black">+${best.score.toFixed(2)}</span></div>`;
@@ -314,32 +340,57 @@ document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
         function closeModal() { document.getElementById('modal').classList.add('hidden'); }
 
         async function submitToGas() {
-            const btn = document.getElementById('finalSubmitBtn'); btn.disabled = true; btn.innerText = "傳送中...";
+            const btn = document.getElementById('finalSubmitBtn');
+            btn.disabled = true; btn.innerText = "正在加密傳輸...";
+
             const payload = {
-                idCard: document.getElementById('idCard').value, name: document.getElementById('name').value,
-                bigBrigade: document.getElementById('bigBrigade').value, hqDept: document.getElementById('hqDept').value,
-                medBrigade: document.getElementById('medBrigade').value, smallUnit: document.getElementById('smallUnit').value,
+                idCard: document.getElementById('idCard').value,
+                name: document.getElementById('name').value,
+                bigBrigade: document.getElementById('bigBrigade').value,
+                hqDept: document.getElementById('hqDept').value,
+                medBrigade: document.getElementById('medBrigade').value,
+                smallUnit: document.getElementById('smallUnit').value,
                 certificates: []
             };
+
             const selected = document.querySelectorAll('.cert-check:checked');
             for (let check of selected) {
-                const row = check.closest('.item-row'), file = row.querySelector('.cert-file').files[0], dateIn = row.querySelector('.cert-date');
+                const row = check.closest('.item-row');
+                // 也要同步檢查過期才抓取
+                const dateIn = row.querySelector('.cert-date');
                 const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+                const today = new Date(); today.setHours(0,0,0,0);
+                let isValid = true;
+                if (dateIn && !isPerm) {
+                    if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
+                }
+                if (!isValid) continue;
+
+                const file = row.querySelector('.cert-file').files[0];
                 payload.certificates.push({
-                    category: row.dataset.cat, itemName: row.dataset.name, score: row.dataset.score,
+                    category: row.dataset.cat,
+                    itemName: row.dataset.name,
+                    score: row.dataset.score,
                     expiry: isPerm ? "無期限" : (dateIn ? dateIn.value : "永久有效"),
-                    fileBase64: await toBase64(file), fileName: file.name
+                    fileBase64: await toBase64(file),
+                    fileName: file.name
                 });
             }
 
             const GAS_URL = "https://script.google.com/macros/s/AKfycbzFpN4k8k7tQ9o7TpFOewDwSh0wQmtVW9l8BVmFJpj9sIw9Laueq4d4zHLGaz0OIhrv5w/exec"; 
             try {
-                // 使用 no-cors 解決 Cookie 帳號衝突問題
                 await fetch(GAS_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-                alert("申報完成！若資料正確將匯入系統。");
-                location.reload();
-            } catch(e) { alert("連線失敗，請嘗試使用無痕視窗。"); }
-            btn.disabled = false; btn.innerText = "確認送出";
+                
+                // 成功後顯示成功頁面
+                document.getElementById('modal').classList.add('hidden');
+                document.getElementById('resName').innerText = payload.name;
+                document.getElementById('resTime').innerText = new Date().toLocaleString();
+                document.getElementById('successPage').classList.remove('hidden');
+                window.scrollTo(0,0);
+            } catch(e) { 
+                alert("連線失敗，請嘗試使用無痕視窗或檢查網路環境。");
+                btn.disabled = false; btn.innerText = "確定送出";
+            }
         }
 
         const toBase64 = file => new Promise((resolve, reject) => {
