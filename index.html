@@ -273,13 +273,34 @@
             CONFIG.forEach(cat => {
                 let best = { name: "無相關證照", score: 0 };
                 if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
-                    document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
-                        if (row.querySelector('.cert-check').checked) {
-                            if (row.querySelector('.cert-file').files.length === 0) { alert(`【${cat.title}】區塊勾選了「${row.dataset.name}」，但未上傳證明檔案！`); stop = true; return; }
-                            const score = parseFloat(row.dataset.score);
-                            if (score > best.score) best = { name: row.dataset.name, score: score };
-                        }
-                    });
+                   // --- 這是修改後的代碼 ---
+document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
+    if (row.querySelector('.cert-check').checked) {
+        // 1. 先檢查有沒有過期
+        const dateIn = row.querySelector('.cert-date');
+        const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+        const today = new Date(); today.setHours(0,0,0,0);
+        
+        let isValid = true;
+        if (dateIn && !isPerm) {
+            // 如果沒填日期，或日期早於今天，視為無效
+            if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
+        }
+
+        if (!isValid) return; // 過期就跳過，不列入計算
+
+        // 2. 檢查有沒有傳檔案
+        if (row.querySelector('.cert-file').files.length === 0) {
+            alert(`【${cat.title}】區塊勾選了「${row.dataset.name}」，但未上傳證明檔案！`);
+            stop = true;
+            return;
+        }
+
+        // 3. 擇優採計
+        const score = parseFloat(row.dataset.score);
+        if (score > best.score) best = { name: row.dataset.name, score: score };
+    }
+});
                 }
                 if (stop) return;
                 list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${best.name}</b></span><span class="text-blue-600 font-black">+${best.score.toFixed(2)}</span></div>`;
