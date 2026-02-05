@@ -15,7 +15,6 @@
         .no-cert-active { border-color: #cbd5e1 !important; background: #f1f5f9; opacity: 0.7; }
         .select-custom { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.5em 1.5em; }
         
-        /* 成功確認信動畫 */
         @keyframes stamp {
             0% { transform: scale(3); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
@@ -49,21 +48,20 @@
             </div>
         </header>
 
-        <!-- 填報說明卡 (含聯繫方式) -->
+        <!-- 填報說明卡 -->
         <div class="glass-card p-6 md:p-8 mb-8 border-l-8 border-blue-600 shadow-sm relative overflow-hidden">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
                 <h2 class="text-xl font-bold text-slate-800 flex items-center">
                     <i class="fa-solid fa-circle-info text-blue-600 mr-2"></i> 填報須知與計分規定
                 </h2>
-                <!-- 聯繫方式 -->
                 <a href="mailto:aa9798@gov.taipei" class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-xs font-black flex items-center hover:bg-blue-100 transition">
                     <i class="fa-solid fa-envelope-open-text mr-2"></i> 有疑問？聯繫承辦人
                 </a>
             </div>
             <div class="grid md:grid-cols-2 gap-x-12 gap-y-4 text-sm text-slate-600 leading-relaxed font-medium">
                 <div class="space-y-3">
-                    <p class="flex items-start gap-2"><i class="fa-solid fa-star text-amber-500 mt-1"></i><span><strong>擇優採計：</strong> 同一類別僅採計<strong>分數最高</strong>的一項，不累加。</span></p>
-                    <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-blue-500 mt-1"></i><span><strong>效期判定：</strong> 救生員需填到期日。注意 ! <span class="text-red-600 underline">過期計為 0 分</span>。</span></p>
+                    <p class="flex items-start gap-2"><i class="fa-solid fa-star text-amber-500 mt-1"></i><span><strong>擇優採計：</strong> 同一類別僅採計<strong>分數最高</strong>的一項。</span></p>
+                    <p class="flex items-start gap-2"><i class="fa-solid fa-calendar-check text-blue-500 mt-1"></i><span><strong>效期判定：</strong> 救生員需填到期日。過期計為 0 分。</span></p>
                 </div>
                 <div class="space-y-3">
                     <p class="flex items-start gap-2"><i class="fa-solid fa-file-arrow-up text-red-500 mt-1"></i><span><strong>附件必要：</strong> 勾選項目後必須上傳檔案，否則無法送出。</span></p>
@@ -72,7 +70,7 @@
             </div>
         </div>
 
-        <!-- 基本資料與單位選擇 -->
+        <!-- 基本資料 -->
         <section class="glass-card p-6 md:p-10 shadow-xl mb-10 border-t-8 border-slate-800">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                 <div>
@@ -94,12 +92,10 @@
                         <option value="第四大隊">第四大隊</option>
                     </select>
                 </div>
-
                 <div id="hqArea" class="lg:col-span-4 hidden">
                     <label class="block text-[10px] font-black text-blue-600 mb-1 italic">局本部科室/中心名稱</label>
                     <input type="text" id="hqDept" class="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-3 focus:border-blue-500 outline-none" placeholder="例如：救護科、人事室...">
                 </div>
-
                 <div id="brigadeArea" class="lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
                     <select id="medBrigade" onchange="updateSmall()" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
                     <select id="smallUnit" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
@@ -107,10 +103,10 @@
             </div>
         </section>
 
-        <!-- 證照填寫區域 -->
+        <!-- 證照區域 -->
         <div id="mainForm" class="space-y-8"></div>
 
-        <!-- 提交按鈕 -->
+        <!-- 提交 -->
         <div class="mt-12 mb-24 flex flex-col items-center">
             <button onclick="prepareConfirmation()" class="w-full md:w-auto bg-slate-900 hover:bg-blue-600 text-white px-16 py-5 rounded-[2.5rem] font-black text-xl shadow-2xl transition-all">
                 <i class="fa-solid fa-magnifying-glass-chart mr-2"></i> 生成試算預覽
@@ -126,12 +122,11 @@
         </div>
     </div>
 
-    <!-- 預覽 Modal -->
+    <!-- Modal -->
     <div id="modal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden">
             <div class="bg-slate-100 p-8 border-b text-center">
                 <h3 class="text-2xl font-black text-slate-800 italic uppercase">確認申報資料</h3>
-                <p class="text-slate-500 text-sm font-bold">請確認以下項目是否正確：</p>
             </div>
             <div class="p-8">
                 <div id="confirmList" class="space-y-3 mb-8 max-h-[45vh] overflow-y-auto"></div>
@@ -140,14 +135,14 @@
                     <span id="modalTotal" class="text-4xl font-black text-blue-600 tracking-tighter">0.00</span>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
-                    <button onclick="closeModal()" class="py-4 text-slate-400 font-bold hover:bg-slate-50 rounded-2xl transition">修改資料</button>
+                    <button onclick="closeModal()" class="py-4 text-slate-400 font-bold hover:bg-slate-50 rounded-2xl transition">修改</button>
                     <button id="finalSubmitBtn" onclick="submitToGas()" class="py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-xl hover:bg-blue-700 transition">確定送出</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 確認信/成功畫面 (預設隱藏) -->
+    <!-- 成功畫面 -->
     <div id="successPage" class="fixed inset-0 bg-slate-100 hidden z-[60] overflow-y-auto p-4 md:p-10">
         <div class="max-w-2xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden border-t-[12px] border-blue-600">
             <div class="p-10">
@@ -156,31 +151,13 @@
                         <i class="fa-solid fa-check-double"></i>
                     </div>
                 </div>
-                <h2 class="text-3xl font-black text-center text-slate-800 mb-2">申報確認函 (已送出)</h2>
-                <p class="text-center text-slate-500 mb-10 font-bold italic">Taipei Fire Dept. Training Center Report</p>
-                
-                <div class="bg-slate-50 rounded-[2rem] p-8 border-2 border-dashed border-slate-200 space-y-4">
-                    <div class="flex justify-between border-b pb-2"><span class="text-slate-400">填報人姓名</span><span id="resName" class="font-bold"></span></div>
-                    <div class="flex justify-between border-b pb-2"><span class="text-slate-400">身分證字號</span><span id="resId" class="font-bold"></span></div>
-                    <div class="flex justify-between border-b pb-2"><span class="text-slate-400">申報時間</span><span id="resTime" class="font-bold"></span></div>
+                <h2 class="text-3xl font-black text-center text-slate-800 mb-2">申報成功</h2>
+                <div class="bg-slate-50 rounded-[2rem] p-8 space-y-4">
+                    <div class="flex justify-between border-b pb-2"><span class="text-slate-400">姓名</span><span id="resName" class="font-bold"></span></div>
                     <div class="flex justify-between border-b pb-2 text-blue-600"><span class="font-bold italic uppercase">Total Points</span><span id="resScore" class="text-2xl font-black"></span></div>
-                    
-                    <div class="pt-4">
-                        <p class="text-[10px] text-slate-400 font-black uppercase mb-2">申報項目明細</p>
-                        <div id="resDetails" class="space-y-2 text-sm text-slate-600"></div>
-                    </div>
+                    <div id="resDetails" class="space-y-2 text-sm text-slate-600"></div>
                 </div>
-
-                <div class="mt-8 p-6 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-4">
-                    <i class="fa-solid fa-circle-exclamation text-amber-500 mt-1"></i>
-                    <p class="text-xs text-amber-800 leading-relaxed">
-                        <strong>提醒：</strong> 您的資料已傳送至雲端資料庫。本函可作為申報證明，建議您截圖留存。如後續審核有誤，承辦人將依您填報之資訊與您聯繫。
-                    </p>
-                </div>
-
-                <button onclick="location.reload()" class="w-full mt-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black hover:bg-slate-800 transition shadow-xl">
-                    完成並返回系統
-                </button>
+                <button onclick="location.reload()" class="w-full mt-10 py-5 bg-slate-900 text-white rounded-[2rem] font-black hover:bg-slate-800 transition">返回系統</button>
             </div>
         </div>
     </div>
@@ -230,9 +207,10 @@
                     <div class="glass-card overflow-hidden shadow-lg border-l-[12px] border-slate-200">
                         <div class="bg-slate-50 px-6 py-4 border-b flex justify-between items-center font-bold">
                             <span class="text-xs uppercase tracking-widest text-slate-400 italic">${cat.title}</span>
-                            // 修改後
-<span class="text-[10px] text-blue-500 uppercase font-black tracking-tighter">Picked Highest</span>
-<span id="tip_${cat.id}" class="text-[10px] text-amber-600 font-bold ml-2"></span>
+                            <div class="flex items-center">
+                                <span class="text-[10px] text-blue-500 uppercase font-black tracking-tighter">Picked Highest</span>
+                                <span id="tip_${cat.id}" class="text-[10px] text-amber-600 font-bold ml-2"></span>
+                            </div>
                         </div>
                         <div class="p-4 md:p-8 space-y-4">
                             <div class="no-cert-card p-5 rounded-2xl flex items-center justify-between cursor-pointer border-2 border-dashed border-slate-200" onclick="toggleNoCert('${cat.id}')" id="noCertBox_${cat.id}">
@@ -246,8 +224,7 @@
                     html += `
                         <div class="item-row p-5 rounded-[2.5rem] bg-white flex flex-col md:flex-row md:items-center justify-between gap-6 cert-item-${cat.id}" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
                             <div class="flex items-start gap-3">
-                               // 修改後的程式碼：改成 radio 類型，且同一類別 name 相同，就能達成自動切換
-<input type="radio" name="group_${cat.id}" onchange="handleCertSelect(this, '${cat.id}')" class="w-8 h-8 rounded-full text-blue-600 cert-check mt-1">
+                                <input type="radio" name="group_${cat.id}" onchange="handleCertSelect(this, '${cat.id}')" class="w-8 h-8 rounded-full text-blue-600 cert-check mt-1">
                                 <div>
                                     <h4 class="font-bold text-slate-800 text-lg">${item.name}</h4>
                                     <p class="text-blue-500 font-black text-xs italic tracking-tighter">+ ${item.score.toFixed(2)} pts</p>
@@ -276,30 +253,32 @@
         }
 
         function toggleNoCert(id) {
-    if (event.target.type !== 'checkbox') document.getElementById(`noCertCheck_${id}`).checked = !document.getElementById(`noCertCheck_${id}`).checked;
-    const isChecked = document.getElementById(`noCertCheck_${id}`).checked;
-    
-    if (isChecked) {
-        // 當勾選「無相關證照」時，清空該類別所有 radio 的選取狀態
-        document.querySelectorAll(`.cert-item-${id} .cert-check`).forEach(c => c.checked = false);
-    }
-    updateCalc();
-}
+            if (event.target.type !== 'checkbox') {
+                document.getElementById(`noCertCheck_${id}`).checked = !document.getElementById(`noCertCheck_${id}`).checked;
+            }
+            const isChecked = document.getElementById(`noCertCheck_${id}`).checked;
+            if (isChecked) {
+                document.querySelectorAll(`.cert-item-${id} .cert-check`).forEach(c => c.checked = false);
+            }
+            updateCalc();
+        }
 
         function handleCertSelect(el, id) { 
-    if (el.checked) {
-        // 1. 取消「無相關證照」的勾選
-        document.getElementById(`noCertCheck_${id}`).checked = false; 
-        
-        // 2. 顯示自動切換提示
-        const tipEl = document.getElementById(`tip_${id}`);
-        if(tipEl) {
-            tipEl.innerText = "💡 已自動切換至此項目";
-            setTimeout(() => { tipEl.innerText = ""; }, 2000);
+            if (el.checked) {
+                document.getElementById(`noCertCheck_${id}`).checked = false; 
+                const tipEl = document.getElementById(`tip_${id}`);
+                if(tipEl) {
+                    tipEl.innerText = "💡 已自動切換至此項目";
+                    setTimeout(() => { tipEl.innerText = ""; }, 2000);
+                }
+            }
+            updateCalc(); 
         }
-    }
-    updateCalc(); 
-}
+
+        function toggleIndefinite(el) {
+            const date = el.closest('.item-row').querySelector('.cert-date');
+            date.disabled = el.checked; if (el.checked) date.value = ""; updateCalc();
+        }
 
         function updateCalc() {
             const today = new Date(); today.setHours(0,0,0,0);
@@ -308,19 +287,25 @@
                 let catMax = 0, winner = null;
                 const rows = document.querySelectorAll(`.cert-item-${cat.id}`), isNoCert = document.getElementById(`noCertCheck_${cat.id}`).checked;
                 document.getElementById(`noCertBox_${cat.id}`).classList.toggle('no-cert-active', isNoCert);
-                if (isNoCert) { rows.forEach(r => { r.classList.add('opacity-30'); r.classList.remove('highest-glow'); }); }
-                else {
-                    rows.forEach(row => {
-                        const check = row.querySelector('.cert-check').checked, dateIn = row.querySelector('.cert-date'), isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-                        row.classList.remove('highest-glow', 'opacity-30');
-                        if (check) {
-                            let valid = true;
-                            if (dateIn && !isPerm) { if (!dateIn.value || new Date(dateIn.value) < today) valid = false; }
-                            if (valid && parseFloat(row.dataset.score) > catMax) { catMax = parseFloat(row.dataset.score); winner = row; }
+                
+                rows.forEach(row => {
+                    const check = row.querySelector('.cert-check').checked;
+                    const dateIn = row.querySelector('.cert-date');
+                    const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
+                    row.classList.remove('highest-glow', 'opacity-30');
+                    
+                    if (isNoCert) {
+                        row.classList.add('opacity-30');
+                    } else if (check) {
+                        let valid = true;
+                        if (dateIn && !isPerm) { if (!dateIn.value || new Date(dateIn.value) < today) valid = false; }
+                        if (valid) {
+                            catMax = parseFloat(row.dataset.score);
+                            winner = row;
                         }
-                    });
-                    if (winner) rows.forEach(r => { if(r === winner) r.classList.add('highest-glow'); else if(r.querySelector('.cert-check').checked) r.classList.add('opacity-30'); });
-                }
+                    }
+                });
+                if (winner) winner.classList.add('highest-glow');
                 total += catMax;
             });
             document.getElementById('floatingScore').innerText = total.toFixed(2);
@@ -338,7 +323,6 @@
                 if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
                     document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
                         if (row.querySelector('.cert-check').checked) {
-                            // 效期判別
                             const dateIn = row.querySelector('.cert-date');
                             const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
                             const today = new Date(); today.setHours(0,0,0,0);
@@ -346,14 +330,13 @@
                             if (dateIn && !isPerm) {
                                 if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
                             }
-                            if (!isValid) return; // 過期則跳過不計
+                            if (!isValid) return;
 
                             if (row.querySelector('.cert-file').files.length === 0) {
                                 alert(`【${cat.title}】勾選了「${row.dataset.name}」，但未上傳檔案！`);
                                 stop = true; return;
                             }
-                            const score = parseFloat(row.dataset.score);
-                            if (score > best.score) best = { name: row.dataset.name, score: score };
+                            best = { name: row.dataset.name, score: parseFloat(row.dataset.score) };
                         }
                     });
                 }
@@ -370,7 +353,6 @@
 
         async function submitToGas() {
             const btn = document.getElementById('finalSubmitBtn'); btn.disabled = true; btn.innerText = "傳送中...";
-            
             const payload = {
                 idCard: document.getElementById('idCard').value,
                 name: document.getElementById('name').value,
@@ -384,16 +366,11 @@
 
             const selected = document.querySelectorAll('.cert-check:checked');
             const detailListHtml = [];
-
             for (let check of selected) {
                 const row = check.closest('.item-row');
-                // 再次驗證效期，避免送出過期證照
+                const file = row.querySelector('.cert-file').files[0];
                 const dateIn = row.querySelector('.cert-date');
                 const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-                const today = new Date(); today.setHours(0,0,0,0);
-                if (dateIn && !isPerm && (!dateIn.value || new Date(dateIn.value) < today)) continue;
-
-                const file = row.querySelector('.cert-file').files[0];
                 payload.certificates.push({
                     category: row.dataset.cat, itemName: row.dataset.name, score: row.dataset.score,
                     expiry: isPerm ? "無期限" : (dateIn ? dateIn.value : "永久"),
@@ -405,22 +382,17 @@
             const GAS_URL = "https://script.google.com/macros/s/AKfycbzFpN4k8k7tQ9o7TpFOewDwSh0wQmtVW9l8BVmFJpj9sIw9Laueq4d4zHLGaz0OIhrv5w/exec"; 
             try {
                 await fetch(GAS_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-                
-                // 顯示確認信
                 document.getElementById('resName').innerText = payload.name;
-                document.getElementById('resId').innerText = payload.idCard;
-                document.getElementById('resTime').innerText = new Date().toLocaleString();
                 document.getElementById('resScore').innerText = payload.totalScore;
-                document.getElementById('resDetails').innerHTML = detailListHtml.length > 0 ? detailListHtml.join('') : "無選取項目";
-                
+                document.getElementById('resDetails').innerHTML = detailListHtml.join('');
                 document.getElementById('modal').classList.add('hidden');
                 document.getElementById('mainApp').classList.add('hidden');
                 document.getElementById('floatingBoard').classList.add('hidden');
                 document.getElementById('successPage').classList.remove('hidden');
                 window.scrollTo(0,0);
             } catch(e) {
-                alert("傳送失敗，請聯繫承辦人。");
-                btn.disabled = false; btn.innerText = "確定送出";
+                alert("傳送失敗");
+                btn.disabled = false;
             }
         }
 
