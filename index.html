@@ -81,14 +81,6 @@
                     <select id="medBrigade" onchange="updateSmall()" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
                     <select id="smallUnit" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none"></select>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">自設查詢碼</label>
-                    <input type="password" id="queryCode" inputmode="numeric" maxlength="4" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="4位數字">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">再次確認查詢碼</label>
-                    <input type="password" id="queryCodeConfirm" inputmode="numeric" maxlength="4" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="再次輸入4位數字">
-                </div>
             </div>
         </section>
 
@@ -144,10 +136,9 @@
                 <div class="bg-slate-50 rounded-[2rem] p-8 space-y-4">
                     <div class="flex justify-between border-b pb-2"><span class="text-slate-400">姓名</span><span id="resName" class="font-bold"></span></div>
                     <div class="flex justify-between border-b pb-2 text-blue-600"><span class="font-bold italic uppercase">Total Points</span><span id="resScore" class="text-2xl font-black"></span></div>
-                    <div class="flex justify-between border-b pb-2"><span class="text-slate-400">查詢碼</span><span id="resQueryCode" class="font-bold tracking-[0.3em]"></span></div>
                     <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm text-amber-800 leading-relaxed">
                         <p class="font-bold mb-1">查詢提醒</p>
-                        <p>後續可使用「姓名 + 身分證末三碼 + 查詢碼」查詢個人資料，請妥善保存本次查詢碼。</p>
+                        <p>後續可使用「姓名 + 身分證末三碼」查詢個人資料。</p>
                     </div>
                     <div id="resDetails" class="space-y-2 text-sm text-slate-600"></div>
                 </div>

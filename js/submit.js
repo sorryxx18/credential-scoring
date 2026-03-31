@@ -11,9 +11,7 @@ async function buildPayload() {
     const idCard = document.getElementById('idCard').value;
     const payload = {
         idCard,
-        idLast3: idCard.slice(-3),
         name: document.getElementById('name').value,
-        queryCode: document.getElementById('queryCode').value,
         bigBrigade: document.getElementById('bigBrigade').value,
         hqDept: document.getElementById('hqDept').value,
         medBrigade: document.getElementById('medBrigade').value,
@@ -49,7 +47,6 @@ async function buildPayload() {
 function showSubmitSuccess(payload, detailListHtml) {
     document.getElementById('resName').innerText = payload.name;
     document.getElementById('resScore').innerText = payload.totalScore;
-    document.getElementById('resQueryCode').innerText = payload.queryCode;
     document.getElementById('resDetails').innerHTML = detailListHtml.join('');
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('mainApp').classList.add('hidden');

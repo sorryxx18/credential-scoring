@@ -1,27 +1,11 @@
 function validateBasicFields() {
     const bigVal = document.getElementById('bigBrigade').value;
     const name = document.getElementById('name').value;
-    const queryCode = document.getElementById('queryCode').value;
-    const queryCodeConfirm = document.getElementById('queryCodeConfirm').value;
 
     if (!name || !bigVal) {
         return {
             ok: false,
             message: '個人基本資料與單位未填寫完整！'
-        };
-    }
-
-    if (!/^\d{4}$/.test(queryCode)) {
-        return {
-            ok: false,
-            message: '查詢碼需為 4 位數字！'
-        };
-    }
-
-    if (queryCode !== queryCodeConfirm) {
-        return {
-            ok: false,
-            message: '兩次輸入的查詢碼不一致！'
         };
     }
 
