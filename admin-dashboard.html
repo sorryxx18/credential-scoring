@@ -25,7 +25,12 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 items-end">
                 <div class="md:col-span-2">
                     <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">管理者金鑰</label>
-                    <input type="password" id="adminKey" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-slate-700 outline-none" placeholder="請輸入管理者查詢金鑰">
+                    <div class="relative">
+                        <input type="password" id="adminKey" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 pr-12 focus:border-slate-700 outline-none" placeholder="請輸入管理者查詢金鑰">
+                        <button type="button" onclick="toggleAdminKeyVisibility()" class="absolute inset-y-0 right-0 px-4 text-slate-500 hover:text-blue-600 transition" aria-label="切換管理者金鑰顯示狀態">
+                            <i id="adminKeyToggleIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <button id="loadAdminListBtn" onclick="loadAdminList()" class="w-full bg-slate-900 hover:bg-blue-600 text-white px-8 py-4 rounded-[2.5rem] font-black text-lg shadow-2xl transition-all">
@@ -81,6 +86,14 @@
 
         function getAdminKey() {
             return document.getElementById('adminKey').value.trim();
+        }
+
+        function toggleAdminKeyVisibility() {
+            const input = document.getElementById('adminKey');
+            const icon = document.getElementById('adminKeyToggleIcon');
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            icon.className = isHidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
         }
 
         function getGroupUnit(item) {
