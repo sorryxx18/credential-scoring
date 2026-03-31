@@ -28,11 +28,12 @@
                     <input type="password" id="adminKey" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-slate-700 outline-none" placeholder="請輸入管理者查詢金鑰">
                 </div>
                 <div>
-                    <button onclick="loadAdminList()" class="w-full bg-slate-900 hover:bg-blue-600 text-white px-8 py-4 rounded-[2.5rem] font-black text-lg shadow-2xl transition-all">
+                    <button id="loadAdminListBtn" onclick="loadAdminList()" class="w-full bg-slate-900 hover:bg-blue-600 text-white px-8 py-4 rounded-[2.5rem] font-black text-lg shadow-2xl transition-all">
                         <i class="fa-solid fa-list mr-2"></i> 載入全部人員
                     </button>
                 </div>
             </div>
+            <p id="adminListLoadingText" class="text-sm text-blue-600 font-bold mt-4 hidden">載入人員資料中，請稍候...</p>
             <p class="text-xs text-slate-500 mt-4">輸入管理者金鑰後，可查看全部申報人員，再點選查看詳細資料。</p>
         </section>
 
@@ -66,6 +67,7 @@
                 <p><strong>總分：</strong><span id="detailScore">—</span></p>
                 <div>
                     <strong>採計結果摘要：</strong>
+                    <p id="adminDetailLoadingText" class="mt-2 text-sm text-blue-600 font-bold hidden">查詢明細中，請稍候...</p>
                     <div id="detailSummary" class="mt-2 space-y-2"></div>
                 </div>
             </div>
@@ -140,10 +142,16 @@
 
         async function loadAdminList() {
             const adminKey = getAdminKey();
+            const btn = document.getElementById('loadAdminListBtn');
+            const loadingText = document.getElementById('adminListLoadingText');
             if (!adminKey) {
                 alert('請輸入管理者金鑰。');
                 return;
             }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 載入中...';
+            loadingText.classList.remove('hidden');
 
             try {
                 const url = `${LOOKUP_API_URL}?action=lookup&mode=admin&view=list&adminKey=${encodeURIComponent(adminKey)}`;
@@ -160,15 +168,23 @@
                 document.getElementById('adminListSection').classList.remove('hidden');
             } catch (err) {
                 alert('載入人員列表失敗，請稍後再試。');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-list mr-2"></i> 載入全部人員';
+                loadingText.classList.add('hidden');
             }
         }
 
         async function loadAdminDetail(item) {
             const adminKey = getAdminKey();
+            const loadingText = document.getElementById('adminDetailLoadingText');
             if (!adminKey) {
                 alert('請先輸入管理者金鑰。');
                 return;
             }
+
+            loadingText.classList.remove('hidden');
+            document.getElementById('adminDetailSection').classList.remove('hidden');
 
             try {
                 const idCardParam = item.idCard ? `&idCard=${encodeURIComponent(item.idCard)}` : '';
@@ -207,6 +223,8 @@
                 document.getElementById('adminDetailSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (err) {
                 alert('載入明細失敗，請稍後再試。');
+            } finally {
+                loadingText.classList.add('hidden');
             }
         }
     </script>

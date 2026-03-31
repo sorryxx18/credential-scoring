@@ -66,6 +66,7 @@ async function submitToGas() {
     const btn = document.getElementById('finalSubmitBtn');
     btn.disabled = true;
     btn.innerText = '傳送中...';
+    btn.insertAdjacentHTML('afterend', '<p id="submitLoadingText" class="mt-4 text-center text-sm text-blue-600 font-bold">資料與附件上傳中，請稍候，請勿重複送出或關閉頁面。</p>');
 
     try {
         const { payload, detailListHtml } = await buildPayload();
@@ -81,6 +82,7 @@ async function submitToGas() {
         } else {
             alert('傳送失敗');
         }
+        document.getElementById('submitLoadingText')?.remove();
         btn.disabled = false;
         btn.innerText = '確定送出';
     }
