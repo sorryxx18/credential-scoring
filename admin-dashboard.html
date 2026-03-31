@@ -46,6 +46,11 @@
                     <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">單位篩選</label>
                     <select id="unitFilter" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none" onchange="renderAdminList()">
                         <option value="">全部單位</option>
+                        <option value="局">局</option>
+                        <option value="第一大隊">第一大隊</option>
+                        <option value="第二大隊">第二大隊</option>
+                        <option value="第三大隊">第三大隊</option>
+                        <option value="第四大隊">第四大隊</option>
                     </select>
                 </div>
             </div>
@@ -75,23 +80,15 @@
             return document.getElementById('adminKey').value.trim();
         }
 
-        function populateUnitFilter(rows) {
-            const filter = document.getElementById('unitFilter');
-            const units = [...new Set((rows || []).map(item => (item.unit || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
-            filter.innerHTML = '<option value="">全部單位</option>';
-            units.forEach(unit => {
-                const option = document.createElement('option');
-                option.value = unit;
-                option.textContent = unit;
-                filter.appendChild(option);
-            });
+        function getGroupUnit(item) {
+            return (item.bigBrigade || item.groupUnit || item.unit || '').trim();
         }
 
         function renderAdminList() {
             const list = document.getElementById('adminList');
             const count = document.getElementById('adminListCount');
             const selectedUnit = document.getElementById('unitFilter').value;
-            const filteredRows = selectedUnit ? adminRows.filter(item => (item.unit || '') === selectedUnit) : adminRows;
+            const filteredRows = selectedUnit ? adminRows.filter(item => getGroupUnit(item) === selectedUnit) : adminRows;
 
             list.innerHTML = '';
             count.innerText = `${filteredRows.length} 筆`;
@@ -142,7 +139,6 @@
                 }
 
                 adminRows = data.data || [];
-                populateUnitFilter(adminRows);
                 renderAdminList();
                 document.getElementById('adminListSection').classList.remove('hidden');
             } catch (err) {
