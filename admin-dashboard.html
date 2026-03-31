@@ -85,6 +85,10 @@
             const unit = (item.unit || '').trim();
             if (!unit) return '局';
 
+            if (Object.prototype.hasOwnProperty.call(AUDIT_UNITS, unit)) {
+                return unit;
+            }
+
             for (const brigadeName in AUDIT_UNITS) {
                 const medMap = AUDIT_UNITS[brigadeName] || {};
                 for (const medName in medMap) {
