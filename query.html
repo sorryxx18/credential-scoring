@@ -56,7 +56,7 @@
     </div>
 
     <script>
-        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbwDKTCf161VJi2y0u-2pbR_78cKuCp8abNqtEchmy2ie8iRra09HLmoFf1rLeUFAdSXnQ/exec";
+        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbybLN6gJrcDlzGYxtPJbeH6aBWlTtp3TaQiDVh2e8-6XNFRlQe3oo2Zy9QD1KAVWCdMVg/exec";
 
         async function lookupSubmission() {
             const name = document.getElementById('lookupName').value.trim();
@@ -87,9 +87,12 @@
 
                 (data.data.categories || []).forEach(item => {
                     summary.innerHTML += `
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
-                            <span>${item.category}：<b>${item.certName}</b></span>
-                            <span class="text-blue-600 font-black">+${Number(item.score).toFixed(2)}</span>
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+                            <div class="flex justify-between gap-4">
+                                <span>${item.category}：<b>${item.certName}</b></span>
+                                <span class="text-blue-600 font-black">+${Number(item.score).toFixed(2)}</span>
+                            </div>
+                            ${item.fileUrl ? `<div><a href="${item.fileUrl}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 font-bold underline underline-offset-2">查看附件</a></div>` : ''}
                         </div>
                     `;
                 });
