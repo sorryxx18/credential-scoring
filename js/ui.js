@@ -78,28 +78,16 @@ function updateCalc() {
 }
 
 async function prepareConfirmation() {
-    const bigVal = document.getElementById('bigBrigade').value;
-    const name = document.getElementById('name').value;
-    if (!name || !bigVal) return alert('個人基本資料與單位未填寫完整！');
-
     const list = document.getElementById('confirmList');
     list.innerHTML = '';
     const result = calculateFormScore();
-    let stop = false;
+    const validation = validateBeforeSubmit(result);
+    if (!validation.ok) return alert(validation.message);
 
     result.categories.forEach(cat => {
-        if (!cat.isNoCert && cat.row) {
-            if (cat.row.querySelector('.cert-file').files.length === 0) {
-                alert(`【${cat.title}】勾選了「${cat.name}」，但未上傳檔案！`);
-                stop = true;
-                return;
-            }
-        }
-
         list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${cat.name}</b></span><span class="text-blue-600 font-black">+${cat.score.toFixed(2)}</span></div>`;
     });
 
-    if (stop) return;
     document.getElementById('modalTotal').innerText = result.total.toFixed(2);
     document.getElementById('modal').classList.remove('hidden');
 }
