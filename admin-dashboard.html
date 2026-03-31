@@ -37,9 +37,17 @@
         </section>
 
         <section id="adminListSection" class="glass-card p-6 md:p-10 shadow-xl mb-8 hidden border-t-8 border-blue-600">
-            <div class="flex items-center justify-between gap-4 mb-6">
-                <h2 class="text-xl font-black">人員列表</h2>
-                <span id="adminListCount" class="text-sm text-slate-500 font-bold">0 筆</span>
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-black">人員列表</h2>
+                    <span id="adminListCount" class="text-sm text-slate-500 font-bold">0 筆</span>
+                </div>
+                <div class="w-full md:w-72">
+                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">單位篩選</label>
+                    <select id="unitFilter" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none" onchange="renderAdminList()">
+                        <option value="">全部單位</option>
+                    </select>
+                </div>
             </div>
             <div id="adminList" class="space-y-3"></div>
         </section>
@@ -61,9 +69,59 @@
 
     <script>
         const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbyU_7dyWn82mKX4lTIlnxR2yjkKprEjVLUehr5U0ybfvQqtxeQP2ufnln4uH4tCklLmCA/exec";
+        let adminRows = [];
 
         function getAdminKey() {
             return document.getElementById('adminKey').value.trim();
+        }
+
+        function populateUnitFilter(rows) {
+            const filter = document.getElementById('unitFilter');
+            const units = [...new Set((rows || []).map(item => (item.unit || '').trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+            filter.innerHTML = '<option value="">全部單位</option>';
+            units.forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit;
+                option.textContent = unit;
+                filter.appendChild(option);
+            });
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('adminList');
+            const count = document.getElementById('adminListCount');
+            const selectedUnit = document.getElementById('unitFilter').value;
+            const filteredRows = selectedUnit ? adminRows.filter(item => (item.unit || '') === selectedUnit) : adminRows;
+
+            list.innerHTML = '';
+            count.innerText = `${filteredRows.length} 筆`;
+
+            if (filteredRows.length === 0) {
+                list.innerHTML = '<div class="p-4 rounded-xl bg-slate-50 border border-slate-100 text-slate-500">目前沒有符合條件的資料。</div>';
+                return;
+            }
+
+            filteredRows.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4';
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="text-lg font-black text-slate-900">${item.name || '—'}</div>
+                        <div class="text-sm text-slate-600">單位：${item.unit || '—'}</div>
+                        <div class="text-sm text-slate-500">送出時間：${item.submittedAt || '—'}</div>
+                    </div>
+                    <div class="flex flex-col items-start md:items-end gap-2">
+                        <div class="text-blue-600 font-black text-xl">總分 ${item.totalScore || '0.00'}</div>
+                        <button class="bg-slate-900 hover:bg-blue-600 text-white px-5 py-2 rounded-full font-bold transition-all">查看詳細</button>
+                    </div>
+                `;
+
+                card.querySelector('button').addEventListener('click', () => {
+                    loadAdminDetail(item);
+                });
+
+                list.appendChild(card);
+            });
         }
 
         async function loadAdminList() {
@@ -83,41 +141,10 @@
                     return;
                 }
 
-                const list = document.getElementById('adminList');
-                const listSection = document.getElementById('adminListSection');
-                const count = document.getElementById('adminListCount');
-                list.innerHTML = '';
-
-                const rows = data.data || [];
-                count.innerText = `${rows.length} 筆`;
-
-                if (rows.length === 0) {
-                    list.innerHTML = '<div class="p-4 rounded-xl bg-slate-50 border border-slate-100 text-slate-500">目前沒有可顯示資料。</div>';
-                } else {
-                    rows.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'p-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4';
-                        card.innerHTML = `
-                            <div class="space-y-1">
-                                <div class="text-lg font-black text-slate-900">${item.name || '—'}</div>
-                                <div class="text-sm text-slate-600">單位：${item.unit || '—'}</div>
-                                <div class="text-sm text-slate-500">送出時間：${item.submittedAt || '—'}</div>
-                            </div>
-                            <div class="flex flex-col items-start md:items-end gap-2">
-                                <div class="text-blue-600 font-black text-xl">總分 ${item.totalScore || '0.00'}</div>
-                                <button class="bg-slate-900 hover:bg-blue-600 text-white px-5 py-2 rounded-full font-bold transition-all">查看詳細</button>
-                            </div>
-                        `;
-
-                        card.querySelector('button').addEventListener('click', () => {
-                            loadAdminDetail(item);
-                        });
-
-                        list.appendChild(card);
-                    });
-                }
-
-                listSection.classList.remove('hidden');
+                adminRows = data.data || [];
+                populateUnitFilter(adminRows);
+                renderAdminList();
+                document.getElementById('adminListSection').classList.remove('hidden');
             } catch (err) {
                 alert('載入人員列表失敗，請稍後再試。');
             }
