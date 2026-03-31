@@ -1,0 +1,18 @@
+body { font-family: 'Noto Sans TC', sans-serif; background: #f1f5f9; -webkit-tap-highlight-color: transparent; }
+.glass-card { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.4); }
+.item-row { transition: all 0.2s ease; border: 2px solid #f1f5f9; }
+.highest-glow { border-color: #2563eb !important; background: #eff6ff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+.no-cert-active { border-color: #cbd5e1 !important; background: #f1f5f9; opacity: 0.7; }
+.select-custom { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.5em 1.5em; }
+
+@keyframes stamp {
+    0% { transform: scale(3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.stamp-effect { animation: stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+@media (max-width: 640px) {
+    .p-10 { padding: 1.25rem !important; }
+    .p-8 { padding: 1rem !important; }
+    .cert-file { width: 100% !important; margin-top: 0.5rem; }
+}

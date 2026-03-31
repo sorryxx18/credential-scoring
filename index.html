@@ -7,26 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Noto Sans TC', sans-serif; background: #f1f5f9; -webkit-tap-highlight-color: transparent; }
-        .glass-card { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-radius: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.4); }
-        .item-row { transition: all 0.2s ease; border: 2px solid #f1f5f9; }
-        .highest-glow { border-color: #2563eb !important; background: #eff6ff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
-        .no-cert-active { border-color: #cbd5e1 !important; background: #f1f5f9; opacity: 0.7; }
-        .select-custom { appearance: none; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.5em 1.5em; }
-        
-        @keyframes stamp {
-            0% { transform: scale(3); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .stamp-effect { animation: stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-
-        @media (max-width: 640px) {
-            .p-10 { padding: 1.25rem !important; }
-            .p-8 { padding: 1rem !important; }
-            .cert-file { width: 100% !important; margin-top: 0.5rem; }
-        }
-    </style>
+    <link href="./css/styles.css" rel="stylesheet">
 </head>
 <body class="p-2 md:p-10 text-slate-800">
 
@@ -162,40 +143,8 @@
         </div>
     </div>
 
+    <script src="./js/config.js"></script>
     <script>
-        const AUDIT_UNITS = {
-    "第一大隊": { 
-        "中正中隊": ["中正中隊", "華山分隊", "泉州分隊", "古亭分隊", "城中分隊", "忠孝分隊"], // 已補入忠孝
-        "萬華中隊": ["萬華中隊", "雙園分隊", "龍山分隊"], 
-        "文山中隊": ["文山中隊", "萬芳分隊", "景美分隊", "木柵分隊", "寶橋分隊"] 
-    },
-    "第二大隊": { 
-        "大安中隊": ["大安中隊", "金華分隊", "復興分隊", "安和分隊"], 
-        "信義中隊": ["信義中隊", "信義分隊", "莊敬分隊", "永吉分隊"], // 已補入永吉
-        "南港中隊": ["南港中隊", "南港分隊", "舊莊分隊", "成德分隊"] 
-    },
-    "第三大隊": { 
-        "中山中隊": ["中山中隊", "大直分隊", "圓山分隊", "松江分隊", "建國分隊"], // 已補入建國
-        "松山中隊": ["松山中隊", "中崙分隊", "八德分隊"], 
-        "內湖中隊": ["內湖中隊", "民權分隊", "內湖分隊", "大湖分隊", "東湖分隊"] 
-    },
-    "第四大隊": { 
-        "大同中隊": ["大同中隊", "建成分隊", "延平分隊", "大同分隊"], 
-        "士林中隊": ["士林中隊", "山仔后分隊", "天母分隊", "福安分隊", "社子分隊", "劍潭分隊", "雙溪分隊", "後港分隊"], // 已補入後港
-        "北投中隊": ["北投中隊", "陽明山分隊", "光明分隊", "關渡分隊", "石牌分隊", "秀山分隊"] 
-    }
-};
-
-        const CONFIG = [
-            { id: "water", title: "水上救生", items: [{ name: "救生員", score: 0.35, hasDate: true }, { name: "救生教練", score: 0.56, hasDate: false }] },
-            { id: "swift", title: "急流救援", items: [{ name: "急流救援訓練(40小時)", score: 0.56, hasDate: false }, { name: "急流救援訓練教官班(45小時)", score: 0.70, hasDate: false }] },
-            { id: "dive", title: "潛水救援", items: [{ name: "救援潛水", score: 0.56, hasDate: false }, { name: "潛水教官", score: 0.70, hasDate: false }, { name: "公共安全潛水(82小時)", score: 0.70, hasDate: false }] },
-            { id: "rescue", title: "消防救助", items: [{ name: "救助隊訓練(320小時)", score: 1.05, hasDate: false }] },
-            { id: "instr", title: "救助師資", items: [{ name: "救助隊師資班(240小時)", score: 0.84, hasDate: false }] },
-            { id: "fire", title: "火災搶救", items: [{ name: "火災搶救教官班", score: 0.84, hasDate: false }] },
-            { id: "drive", title: "車輛駕駛", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
-        ];
-
         function toggleUnitUI() {
             const bigVal = document.getElementById('bigBrigade').value;
             const hqArea = document.getElementById('hqArea'), brArea = document.getElementById('brigadeArea');
