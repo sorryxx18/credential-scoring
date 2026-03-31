@@ -56,6 +56,8 @@
     </div>
 
     <script>
+        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbzIrdwxfD445XCGMUWCekOO90NmjaARP6whwn8Ql4Pybm1lEose1zLPKhnyXqdBJGqbQw/exec";
+
         async function lookupSubmission() {
             const name = document.getElementById('lookupName').value.trim();
             const idLast3 = document.getElementById('lookupIdLast3').value.trim();
@@ -65,7 +67,37 @@
                 return;
             }
 
-            alert('查詢頁前端骨架已改為免查詢碼版，下一步需對接 GAS 個人查詢 API。');
+            try {
+                const url = `${LOOKUP_API_URL}?action=lookup&name=${encodeURIComponent(name)}&idLast3=${encodeURIComponent(idLast3)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (data.result !== 'success') {
+                    alert(data.message || '查無符合資料，請確認輸入資訊是否正確');
+                    return;
+                }
+
+                document.getElementById('resultName').innerText = data.data.name || '—';
+                document.getElementById('resultUnit').innerText = data.data.unit || '—';
+                document.getElementById('resultSubmittedAt').innerText = data.data.submittedAt || '—';
+                document.getElementById('resultScore').innerText = data.data.totalScore || '0';
+
+                const summary = document.getElementById('resultSummary');
+                summary.innerHTML = '';
+
+                (data.data.categories || []).forEach(item => {
+                    summary.innerHTML += `
+                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                            <span>${item.category}：<b>${item.certName}</b></span>
+                            <span class="text-blue-600 font-black">+${Number(item.score).toFixed(2)}</span>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('lookupResult').classList.remove('hidden');
+            } catch (err) {
+                alert('查詢失敗，請稍後再試。');
+            }
         }
     </script>
 </body>
