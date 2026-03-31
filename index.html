@@ -67,7 +67,11 @@
                     <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">姓名</label>
                     <input type="text" id="name" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="全名">
                 </div>
-                <div class="lg:col-span-2">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">個人查詢碼</label>
+                    <input type="text" id="queryCode" maxlength="4" inputmode="numeric" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none transition-all" placeholder="4 碼數字，例如 0000">
+                </div>
+                <div class="lg:col-span-1">
                     <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">所屬大隊/機關</label>
                     <select id="bigBrigade" onchange="toggleUnitUI()" class="select-custom w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 focus:border-blue-500 outline-none font-bold">
                         <option value="">請選擇</option>
@@ -141,9 +145,10 @@
                 <div class="bg-slate-50 rounded-[2rem] p-8 space-y-4">
                     <div class="flex justify-between border-b pb-2"><span class="text-slate-400">姓名</span><span id="resName" class="font-bold"></span></div>
                     <div class="flex justify-between border-b pb-2 text-blue-600"><span class="font-bold italic uppercase">Total Points</span><span id="resScore" class="text-2xl font-black"></span></div>
-                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm text-amber-800 leading-relaxed">
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm text-amber-800 leading-relaxed space-y-1">
                         <p class="font-bold mb-1">查詢提醒</p>
-                        <p>後續可使用「姓名 + 身分證末三碼」查詢個人資料。</p>
+                        <p>後續請使用「姓名 + 身分證末三碼 + 查詢碼」查詢個人資料。</p>
+                        <p>請務必記住你的 4 碼查詢碼：<span id="resQueryCode" class="font-black text-amber-900">—</span></p>
                     </div>
                     <div id="resDetails" class="space-y-2 text-sm text-slate-600"></div>
                 </div>
