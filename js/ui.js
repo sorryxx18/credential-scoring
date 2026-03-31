@@ -56,41 +56,25 @@ function initForm() {
 }
 
 function updateCalc() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    let total = 0;
+    const result = calculateFormScore();
 
-    CONFIG.forEach(cat => {
-        let catMax = 0, winner = null;
+    result.categories.forEach(cat => {
         const rows = document.querySelectorAll(`.cert-item-${cat.id}`);
-        const isNoCert = document.getElementById(`noCertCheck_${cat.id}`).checked;
-        document.getElementById(`noCertBox_${cat.id}`).classList.toggle('no-cert-active', isNoCert);
+        document.getElementById(`noCertBox_${cat.id}`).classList.toggle('no-cert-active', cat.isNoCert);
 
         rows.forEach(row => {
-            const check = row.querySelector('.cert-check').checked;
-            const dateIn = row.querySelector('.cert-date');
-            const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
             row.classList.remove('highest-glow', 'opacity-30');
-
-            if (isNoCert) {
+            if (cat.isNoCert) {
                 row.classList.add('opacity-30');
-            } else if (check) {
-                let valid = true;
-                if (dateIn && !isPerm) {
-                    if (!dateIn.value || new Date(dateIn.value) < today) valid = false;
-                }
-                if (valid) {
-                    catMax = parseFloat(row.dataset.score);
-                    winner = row;
-                }
             }
         });
 
-        if (winner) winner.classList.add('highest-glow');
-        total += catMax;
+        if (cat.row) {
+            cat.row.classList.add('highest-glow');
+        }
     });
 
-    document.getElementById('floatingScore').innerText = total.toFixed(2);
+    document.getElementById('floatingScore').innerText = result.total.toFixed(2);
 }
 
 async function prepareConfirmation() {
@@ -100,41 +84,23 @@ async function prepareConfirmation() {
 
     const list = document.getElementById('confirmList');
     list.innerHTML = '';
-    let finalTotal = 0, stop = false;
+    const result = calculateFormScore();
+    let stop = false;
 
-    CONFIG.forEach(cat => {
-        let best = { name: '無相關證照', score: 0 };
-        if (!document.getElementById(`noCertCheck_${cat.id}`).checked) {
-            document.querySelectorAll(`.cert-item-${cat.id}`).forEach(row => {
-                if (row.querySelector('.cert-check').checked) {
-                    const dateIn = row.querySelector('.cert-date');
-                    const isPerm = row.querySelector('input[type="checkbox"]:not(.cert-check)')?.checked;
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    let isValid = true;
-
-                    if (dateIn && !isPerm) {
-                        if (!dateIn.value || new Date(dateIn.value) < today) isValid = false;
-                    }
-                    if (!isValid) return;
-
-                    if (row.querySelector('.cert-file').files.length === 0) {
-                        alert(`【${cat.title}】勾選了「${row.dataset.name}」，但未上傳檔案！`);
-                        stop = true;
-                        return;
-                    }
-                    best = { name: row.dataset.name, score: parseFloat(row.dataset.score) };
-                }
-            });
+    result.categories.forEach(cat => {
+        if (!cat.isNoCert && cat.row) {
+            if (cat.row.querySelector('.cert-file').files.length === 0) {
+                alert(`【${cat.title}】勾選了「${cat.name}」，但未上傳檔案！`);
+                stop = true;
+                return;
+            }
         }
 
-        if (stop) return;
-        list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${best.name}</b></span><span class="text-blue-600 font-black">+${best.score.toFixed(2)}</span></div>`;
-        finalTotal += best.score;
+        list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${cat.name}</b></span><span class="text-blue-600 font-black">+${cat.score.toFixed(2)}</span></div>`;
     });
 
     if (stop) return;
-    document.getElementById('modalTotal').innerText = finalTotal.toFixed(2);
+    document.getElementById('modalTotal').innerText = result.total.toFixed(2);
     document.getElementById('modal').classList.remove('hidden');
 }
 
