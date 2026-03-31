@@ -72,6 +72,7 @@
         </section>
     </div>
 
+    <script src="./js/config.js"></script>
     <script>
         const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbyU_7dyWn82mKX4lTIlnxR2yjkKprEjVLUehr5U0ybfvQqtxeQP2ufnln4uH4tCklLmCA/exec";
         let adminRows = [];
@@ -81,7 +82,19 @@
         }
 
         function getGroupUnit(item) {
-            return (item.bigBrigade || item.groupUnit || item.unit || '').trim();
+            const unit = (item.unit || '').trim();
+            if (!unit) return '局';
+
+            for (const brigadeName in AUDIT_UNITS) {
+                const medMap = AUDIT_UNITS[brigadeName] || {};
+                for (const medName in medMap) {
+                    if (medName === unit) return brigadeName;
+                    const smallUnits = medMap[medName] || [];
+                    if (smallUnits.includes(unit)) return brigadeName;
+                }
+            }
+
+            return '局';
         }
 
         function renderAdminList() {
