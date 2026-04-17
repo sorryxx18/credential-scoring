@@ -55,10 +55,6 @@
                 <p><strong>升遷資格：</strong><span id="resultEligibility">—</span></p>
                 <p><strong>提醒：</strong><span id="resultEligibilityMessage">—</span></p>
                 <div>
-                    <strong>必要資格檢核：</strong>
-                    <div id="resultRequiredQualifications" class="mt-2 space-y-2"></div>
-                </div>
-                <div>
                     <strong>採計結果摘要：</strong>
                     <div id="resultSummary" class="mt-2 space-y-2"></div>
                 </div>
@@ -133,26 +129,6 @@
                 document.getElementById('resultEligibilityMessage').innerText = hasUsableEligibility
                     ? (data.data.eligibilityMessage || '—')
                     : inferred.message;
-
-                const required = document.getElementById('resultRequiredQualifications');
-                required.innerHTML = '';
-
-                if (Array.isArray(data.data.requiredQualifications) && data.data.requiredQualifications.length > 0) {
-                    data.data.requiredQualifications.forEach(item => {
-                        const hasRealFileUrl = item.fileUrl && item.fileUrl !== '無' && item.fileUrl !== '未上傳' && /^https?:\/\//.test(item.fileUrl);
-                        required.innerHTML += `
-                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
-                                <div class="flex justify-between gap-4">
-                                    <span>${item.label}：<b>${item.certName || '未檢附'}</b></span>
-                                    <span class="${item.status === '已檢附' ? 'text-emerald-600' : 'text-amber-700'} font-black">${item.status || '未判定'}</span>
-                                </div>
-                                ${hasRealFileUrl ? `<div><a href="${item.fileUrl}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 font-bold underline underline-offset-2">查看附件</a></div>` : ''}
-                            </div>
-                        `;
-                    });
-                } else {
-                    required.innerHTML = '<div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-slate-500">目前依既有摘要資料判定資格，尚未提供必要資格附件明細。</div>';
-                }
 
                 const summary = document.getElementById('resultSummary');
                 summary.innerHTML = '';
