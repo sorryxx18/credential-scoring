@@ -42,6 +42,24 @@ function getCategoryScore(catId, today = new Date()) {
     return best;
 }
 
+function getRequiredCertificateStatus(today = new Date()) {
+    return REQUIRED_CERTIFICATES.map(required => {
+        const row = document.querySelector(`.item-row[data-cat="${required.categoryId}"][data-name="${required.name}"]`);
+        const checked = !!row?.querySelector('.cert-check')?.checked;
+        const fileInput = row?.querySelector('.cert-file');
+        const hasFile = !!fileInput && fileInput.files.length > 0;
+        const valid = !!row && checked && hasFile && isCertificateValid(row, today);
+
+        return {
+            ...required,
+            row,
+            checked,
+            hasFile,
+            valid
+        };
+    });
+}
+
 function calculateFormScore(today = new Date()) {
     const compareDay = new Date(today);
     compareDay.setHours(0, 0, 0, 0);
@@ -57,5 +75,16 @@ function calculateFormScore(today = new Date()) {
         };
     });
 
-    return { total, categories };
+    const requiredCertificates = getRequiredCertificateStatus(compareDay);
+    const missingRequired = requiredCertificates.filter(item => !item.valid).map(item => item.name);
+
+    return {
+        total,
+        categories,
+        requiredCertificates,
+        eligibility: {
+            eligible: missingRequired.length === 0,
+            missingRequired
+        }
+    };
 }

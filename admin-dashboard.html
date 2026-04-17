@@ -70,6 +70,8 @@
                 <p><strong>單位：</strong><span id="detailUnit">—</span></p>
                 <p><strong>送出時間：</strong><span id="detailSubmittedAt">—</span></p>
                 <p><strong>總分：</strong><span id="detailScore">—</span></p>
+                <p><strong>升遷資格：</strong><span id="detailEligibility">—</span></p>
+                <p><strong>提醒：</strong><span id="detailEligibilityMessage">—</span></p>
                 <div>
                     <strong>採計結果摘要：</strong>
                     <p id="adminDetailLoadingText" class="mt-2 text-sm text-blue-600 font-bold hidden">查詢明細中，請稍候...</p>
@@ -81,7 +83,7 @@
 
     <script src="./js/config.js"></script>
     <script>
-        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbyU_7dyWn82mKX4lTIlnxR2yjkKprEjVLUehr5U0ybfvQqtxeQP2ufnln4uH4tCklLmCA/exec";
+        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbx68vxaU76pkt3f-Qz8TMD3y0Klz9OuPFQSTXn8HpjOiWvWzMa5rHOEor7JwOmOS5Yp/exec";
         let adminRows = [];
 
         function getAdminKey() {
@@ -215,6 +217,8 @@
                 document.getElementById('detailUnit').innerText = data.data.unit || '—';
                 document.getElementById('detailSubmittedAt').innerText = data.data.submittedAt || '—';
                 document.getElementById('detailScore').innerText = data.data.totalScore || '0';
+                document.getElementById('detailEligibility').innerText = data.data.eligibility || '—';
+                document.getElementById('detailEligibilityMessage').innerText = data.data.eligibilityMessage || '—';
 
                 const summary = document.getElementById('detailSummary');
                 summary.innerHTML = '';

@@ -52,6 +52,8 @@
                 <p><strong>單位：</strong><span id="resultUnit">—</span></p>
                 <p><strong>送出時間：</strong><span id="resultSubmittedAt">—</span></p>
                 <p><strong>總分：</strong><span id="resultScore">—</span></p>
+                <p><strong>升遷資格：</strong><span id="resultEligibility">—</span></p>
+                <p><strong>提醒：</strong><span id="resultEligibilityMessage">—</span></p>
                 <div>
                     <strong>採計結果摘要：</strong>
                     <div id="resultSummary" class="mt-2 space-y-2"></div>
@@ -67,7 +69,7 @@
     </div>
 
     <script>
-        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbw2zNzdkqy_9quJjwiJMqhIS0pT54ZsepvCUzhz2Muo0KSu_ngKwaEzkvNh568NUI2new/exec";
+        const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbx68vxaU76pkt3f-Qz8TMD3y0Klz9OuPFQSTXn8HpjOiWvWzMa5rHOEor7JwOmOS5Yp/exec";
 
         async function lookupSubmission() {
             const name = document.getElementById('lookupName').value.trim();
@@ -99,6 +101,8 @@
                 document.getElementById('resultUnit').innerText = data.data.unit || '—';
                 document.getElementById('resultSubmittedAt').innerText = data.data.submittedAt || '—';
                 document.getElementById('resultScore').innerText = data.data.totalScore || '0';
+                document.getElementById('resultEligibility').innerText = data.data.eligibility || '—';
+                document.getElementById('resultEligibilityMessage').innerText = data.data.eligibilityMessage || '—';
 
                 const summary = document.getElementById('resultSummary');
                 summary.innerHTML = '';

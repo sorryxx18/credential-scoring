@@ -33,3 +33,17 @@ function validateBeforeSubmit(result) {
 
     return validateSelectedCertificates(result);
 }
+
+function getEligibilityNotice(result) {
+    if (result.eligibility.eligible) {
+        return {
+            eligible: true,
+            message: '符合升遷資格'
+        };
+    }
+
+    return {
+        eligible: false,
+        message: `未檢附必要證照資料：${result.eligibility.missingRequired.join('、')}`
+    };
+}

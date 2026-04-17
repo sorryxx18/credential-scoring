@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbw2zNzdkqy_9quJjwiJMqhIS0pT54ZsepvCUzhz2Muo0KSu_ngKwaEzkvNh568NUI2new/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbx68vxaU76pkt3f-Qz8TMD3y0Klz9OuPFQSTXn8HpjOiWvWzMa5rHOEor7JwOmOS5Yp/exec";
 
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -14,6 +14,9 @@ async function buildPayload() {
         throw new Error('QUERY_CODE_INVALID');
     }
 
+    const result = calculateFormScore();
+    const eligibilityNotice = getEligibilityNotice(result);
+
     const payload = {
         idCard,
         queryCode,
@@ -23,7 +26,9 @@ async function buildPayload() {
         medBrigade: document.getElementById('medBrigade').value,
         smallUnit: document.getElementById('smallUnit').value,
         certificates: [],
-        totalScore: document.getElementById('modalTotal').innerText
+        totalScore: document.getElementById('modalTotal').innerText,
+        eligibility: eligibilityNotice.eligible ? '符合' : '不符合',
+        eligibilityMessage: eligibilityNotice.message
     };
 
     const selected = document.querySelectorAll('.cert-check:checked');
@@ -54,7 +59,7 @@ function showSubmitSuccess(payload, detailListHtml) {
     document.getElementById('resName').innerText = payload.name;
     document.getElementById('resScore').innerText = payload.totalScore;
     document.getElementById('resQueryCode').innerText = payload.queryCode || '0000';
-    document.getElementById('resDetails').innerHTML = detailListHtml.join('');
+    document.getElementById('resDetails').innerHTML = [`<p class="font-bold ${payload.eligibility === '符合' ? 'text-emerald-600' : 'text-amber-700'}">升遷資格：${payload.eligibility}</p>`, `<p class="text-sm text-slate-600">${payload.eligibilityMessage}</p>`, ...detailListHtml].join('');
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('mainApp').classList.add('hidden');
     document.getElementById('floatingBoard').classList.add('hidden');

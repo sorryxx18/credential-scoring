@@ -22,13 +22,15 @@ function initForm() {
         `;
 
         cat.items.forEach(item => {
+            const scoreText = item.noScore ? '必要資格，不列計分' : `+ ${item.score.toFixed(2)} pts`;
+            const badgeHtml = item.required ? '<span class="inline-flex items-center px-2 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-black tracking-widest uppercase ml-2">必要</span>' : '';
             html += `
-                <div class="item-row p-5 rounded-[2.5rem] bg-white flex flex-col md:flex-row md:items-center justify-between gap-6 cert-item-${cat.id}" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}">
+                <div class="item-row p-5 rounded-[2.5rem] bg-white flex flex-col md:flex-row md:items-center justify-between gap-6 cert-item-${cat.id}" data-cat="${cat.id}" data-score="${item.score}" data-name="${item.name}" data-required="${item.required ? 'true' : 'false'}">
                     <div class="flex items-start gap-3">
                         <input type="radio" name="group_${cat.id}" onchange="handleCertSelect(this, '${cat.id}')" class="w-8 h-8 rounded-full text-blue-600 cert-check mt-1">
                         <div>
-                            <h4 class="font-bold text-slate-800 text-lg">${item.name}</h4>
-                            <p class="text-blue-500 font-black text-xs italic tracking-tighter">+ ${item.score.toFixed(2)} pts</p>
+                            <h4 class="font-bold text-slate-800 text-lg">${item.name}${badgeHtml}</h4>
+                            <p class="text-blue-500 font-black text-xs italic tracking-tighter">${scoreText}</p>
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 border-t pt-4 md:border-0 md:pt-0">
@@ -87,6 +89,9 @@ async function prepareConfirmation() {
     result.categories.forEach(cat => {
         list.innerHTML += `<div class="flex justify-between p-4 bg-slate-50 rounded-2xl mb-2 text-sm border border-slate-100"><span>${cat.title}: <b>${cat.name}</b></span><span class="text-blue-600 font-black">+${cat.score.toFixed(2)}</span></div>`;
     });
+
+    const eligibilityNotice = getEligibilityNotice(result);
+    list.innerHTML += `<div class="p-4 rounded-2xl text-sm border ${eligibilityNotice.eligible ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-amber-50 border-amber-200 text-amber-800'}"><span class="font-black">升遷資格：</span>${eligibilityNotice.eligible ? '符合' : '不符合'}<div class="mt-2 font-medium">${eligibilityNotice.message}</div></div>`;
 
     document.getElementById('modalTotal').innerText = result.total.toFixed(2);
     document.getElementById('modal').classList.remove('hidden');

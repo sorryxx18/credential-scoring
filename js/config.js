@@ -25,8 +25,14 @@ const CONFIG = [
     { id: "water", title: "水上救生", items: [{ name: "救生員", score: 0.35, hasDate: true }, { name: "救生教練", score: 0.56, hasDate: false }] },
     { id: "swift", title: "急流救援", items: [{ name: "急流救援訓練(40小時)", score: 0.56, hasDate: false }, { name: "急流救援訓練教官班(45小時)", score: 0.70, hasDate: false }] },
     { id: "dive", title: "潛水救援", items: [{ name: "救援潛水", score: 0.56, hasDate: false }, { name: "潛水教官", score: 0.70, hasDate: false }, { name: "公共安全潛水(82小時)", score: 0.70, hasDate: false }] },
-    { id: "rescue", title: "消防救助", items: [{ name: "救助隊訓練(320小時)", score: 1.05, hasDate: false }] },
+    { id: "rescue", title: "消防救助", items: [{ name: "救助隊訓練(320小時)", score: 1.05, hasDate: false, required: true }] },
     { id: "instr", title: "救助師資", items: [{ name: "救助隊師資班(240小時)", score: 0.84, hasDate: false }] },
-    { id: "fire", title: "火災搶救", items: [{ name: "火災搶救教官班", score: 0.84, hasDate: false }] },
-    { id: "drive", title: "車輛駕駛", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
+    { id: "fire", title: "火災搶救", items: [{ name: "火災搶救初級班", score: 0, hasDate: false, required: true, noScore: true }, { name: "火災搶救教官班", score: 0.84, hasDate: false }] },
+    { id: "drive", title: "車輛駕駛", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false, required: true }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
+];
+
+const REQUIRED_CERTIFICATES = [
+    { categoryId: "rescue", name: "救助隊訓練(320小時)" },
+    { categoryId: "fire", name: "火災搶救初級班" },
+    { categoryId: "drive", name: "大貨(客)車駕照" }
 ];
