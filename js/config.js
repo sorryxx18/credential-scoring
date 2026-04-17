@@ -41,17 +41,18 @@ const REQUIRED_GROUPS = [
     },
     {
         key: "fire",
-        label: "火災搶救初級班",
+        label: "火災搶救必要證照",
         options: [
+            { categoryId: "fire", name: "火災搶救教官班" },
             { categoryId: "fire", name: "火災搶救初級班" }
         ]
     },
     {
         key: "drive",
-        label: "車輛駕駛必要證照（大貨(客)車或聯結車）",
+        label: "車輛駕駛必要證照",
         options: [
-            { categoryId: "drive", name: "大貨(客)車駕照" },
-            { categoryId: "drive", name: "聯結車駕照" }
+            { categoryId: "drive", name: "聯結車駕照" },
+            { categoryId: "drive", name: "大貨(客)車駕照" }
         ]
     }
 ];

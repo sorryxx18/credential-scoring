@@ -60,7 +60,7 @@ function getRequiredCertificateStatus(today = new Date()) {
             };
         });
 
-        const matched = options.find(option => option.valid) || options.find(option => option.checked) || options[0];
+        const matched = options.find(option => option.valid) || options.find(option => option.checked) || null;
 
         return {
             key: group.key,
