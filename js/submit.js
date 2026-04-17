@@ -1,4 +1,4 @@
-const GAS_URL = "https://script.google.com/macros/s/AKfycbx68vxaU76pkt3f-Qz8TMD3y0Klz9OuPFQSTXn8HpjOiWvWzMa5rHOEor7JwOmOS5Yp/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbztutbQDNYh_tSGkLWYqYZIkaV7OD4bfghwVgOlxCAY9l4isn_ogvog_Mmn9WfMipUG/exec";
 
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
