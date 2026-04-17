@@ -133,10 +133,11 @@
 
                 (data.data.categories || []).forEach(item => {
                     const hasRealFileUrl = item.fileUrl && item.fileUrl !== '無' && item.fileUrl !== '未上傳' && /^https?:\/\//.test(item.fileUrl);
+                    const displayName = item.category === 'fire' && item.certName === '無相關證照' ? '火災搶救初級班' : item.certName;
                     summary.innerHTML += `
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
                             <div class="flex justify-between gap-4">
-                                <span>${item.category}：<b>${item.certName}</b></span>
+                                <span>${item.category}：<b>${displayName}</b></span>
                                 <span class="text-blue-600 font-black">+${Number(item.score).toFixed(2)}</span>
                             </div>
                             ${hasRealFileUrl ? `<div><a href="${item.fileUrl}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 font-bold underline underline-offset-2">查看附件</a></div>` : ''}
