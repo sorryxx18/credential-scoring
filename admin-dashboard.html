@@ -88,7 +88,27 @@
     <script src="./js/config.js"></script>
     <script>
         const LOOKUP_API_URL = "https://script.google.com/macros/s/AKfycbztutbQDNYh_tSGkLWYqYZIkaV7OD4bfghwVgOlxCAY9l4isn_ogvog_Mmn9WfMipUG/exec";
+        const QUERY_REQUIRED_RULES = {
+            rescue: ['救助隊訓練(320小時)'],
+            fire: ['火災搶救教官班', '火災搶救初級班'],
+            drive: ['聯結車駕照', '大貨(客)車駕照']
+        };
         let adminRows = [];
+
+        function inferEligibilityFromCategories(categories = []) {
+            const names = new Set(categories.map(item => item.certName).filter(Boolean));
+            const rescueOk = QUERY_REQUIRED_RULES.rescue.some(name => names.has(name));
+            const fireOk = QUERY_REQUIRED_RULES.fire.some(name => names.has(name));
+            const driveOk = QUERY_REQUIRED_RULES.drive.some(name => names.has(name));
+            const missing = [];
+            if (!rescueOk) missing.push('救助隊訓練(320小時)');
+            if (!fireOk) missing.push('火災搶救必要證照');
+            if (!driveOk) missing.push('車輛駕駛必要證照');
+            return {
+                eligibility: missing.length === 0 ? '符合' : '不符合',
+                message: missing.length === 0 ? '必要證照已檢附完成。' : `未檢附必要證照資料：${missing.join('、')}`
+            };
+        }
 
         function getAdminKey() {
             return document.getElementById('adminKey').value.trim();
@@ -221,8 +241,14 @@
                 document.getElementById('detailUnit').innerText = data.data.unit || '—';
                 document.getElementById('detailSubmittedAt').innerText = data.data.submittedAt || '—';
                 document.getElementById('detailScore').innerText = data.data.totalScore || '0';
-                document.getElementById('detailEligibility').innerText = data.data.eligibility || '—';
-                document.getElementById('detailEligibilityMessage').innerText = data.data.eligibilityMessage || '—';
+
+                const categories = data.data.categories || [];
+                const hasUsableEligibility = data.data.eligibility && data.data.eligibility !== '未判定';
+                const inferred = inferEligibilityFromCategories(categories);
+                document.getElementById('detailEligibility').innerText = hasUsableEligibility ? data.data.eligibility : inferred.eligibility;
+                document.getElementById('detailEligibilityMessage').innerText = hasUsableEligibility
+                    ? (data.data.eligibilityMessage || '—')
+                    : inferred.message;
 
                 const required = document.getElementById('detailRequiredQualifications');
                 required.innerHTML = '';
@@ -241,15 +267,15 @@
                         `;
                     });
                 } else {
-                    required.innerHTML = '<div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-slate-500">目前未提供必要資格附件明細。</div>';
+                    required.innerHTML = '<div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-slate-500">目前依既有摘要資料判定資格，尚未提供必要資格附件明細。</div>';
                 }
 
                 const summary = document.getElementById('detailSummary');
                 summary.innerHTML = '';
 
-                (data.data.categories || []).forEach(detail => {
+                categories.forEach(detail => {
                     const hasRealFileUrl = detail.fileUrl && detail.fileUrl !== '無' && detail.fileUrl !== '未上傳' && /^https?:\/\//.test(detail.fileUrl);
-                    const displayName = detail.category === 'fire' && detail.certName === '無相關證照' ? '火災搶救初級班' : detail.certName;
+                    const displayName = detail.certName;
                     summary.innerHTML += `
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
                             <div class="flex justify-between gap-4">
