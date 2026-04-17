@@ -43,19 +43,31 @@ function getCategoryScore(catId, today = new Date()) {
 }
 
 function getRequiredCertificateStatus(today = new Date()) {
-    return REQUIRED_CERTIFICATES.map(required => {
-        const row = document.querySelector(`.item-row[data-cat="${required.categoryId}"][data-name="${required.name}"]`);
-        const checked = !!row?.querySelector('.cert-check')?.checked;
-        const fileInput = row?.querySelector('.cert-file');
-        const hasFile = !!fileInput && fileInput.files.length > 0;
-        const valid = !!row && checked && hasFile && isCertificateValid(row, today);
+    return REQUIRED_GROUPS.map(group => {
+        const options = group.options.map(option => {
+            const row = document.querySelector(`.item-row[data-cat="${option.categoryId}"][data-name="${option.name}"]`);
+            const checked = !!row?.querySelector('.cert-check')?.checked;
+            const fileInput = row?.querySelector('.cert-file');
+            const hasFile = !!fileInput && fileInput.files.length > 0;
+            const valid = !!row && checked && hasFile && isCertificateValid(row, today);
+
+            return {
+                ...option,
+                row,
+                checked,
+                hasFile,
+                valid
+            };
+        });
+
+        const matched = options.find(option => option.valid) || options.find(option => option.checked) || options[0];
 
         return {
-            ...required,
-            row,
-            checked,
-            hasFile,
-            valid
+            key: group.key,
+            label: group.label,
+            valid: options.some(option => option.valid),
+            matched,
+            options
         };
     });
 }
@@ -76,7 +88,7 @@ function calculateFormScore(today = new Date()) {
     });
 
     const requiredCertificates = getRequiredCertificateStatus(compareDay);
-    const missingRequired = requiredCertificates.filter(item => !item.valid).map(item => item.name);
+    const missingRequired = requiredCertificates.filter(item => !item.valid).map(item => item.label);
 
     return {
         total,

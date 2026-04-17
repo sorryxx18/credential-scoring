@@ -52,14 +52,21 @@ async function buildPayload() {
         detailListHtml.push(`<p>• ${row.dataset.name} (+${row.dataset.score})</p>`);
     }
 
-    return { payload, detailListHtml };
+    const requiredDetailListHtml = result.requiredCertificates.map(group => {
+        const matchedName = group.matched?.name || '未檢附';
+        const statusText = group.valid ? '已檢附' : '未檢附';
+        const statusClass = group.valid ? 'text-emerald-600' : 'text-amber-700';
+        return `<p>• ${group.label}：<span class="${statusClass} font-bold">${statusText}</span>${group.valid ? `（${matchedName}）` : ''}</p>`;
+    });
+
+    return { payload, detailListHtml, requiredDetailListHtml };
 }
 
-function showSubmitSuccess(payload, detailListHtml) {
+function showSubmitSuccess(payload, detailListHtml, requiredDetailListHtml) {
     document.getElementById('resName').innerText = payload.name;
     document.getElementById('resScore').innerText = payload.totalScore;
     document.getElementById('resQueryCode').innerText = payload.queryCode || '0000';
-    document.getElementById('resDetails').innerHTML = [`<p class="font-bold ${payload.eligibility === '符合' ? 'text-emerald-600' : 'text-amber-700'}">升遷資格：${payload.eligibility}</p>`, `<p class="text-sm text-slate-600">${payload.eligibilityMessage}</p>`, ...detailListHtml].join('');
+    document.getElementById('resDetails').innerHTML = [`<div class="mb-3"><p class="font-bold ${payload.eligibility === '符合' ? 'text-emerald-600' : 'text-amber-700'}">升遷資格：${payload.eligibility}</p><p class="text-sm text-slate-600">${payload.eligibilityMessage}</p></div>`, `<div class="mb-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"><p class="font-bold text-slate-700 mb-2">必要資格檢附確認</p>${requiredDetailListHtml.join('')}</div>`, ...detailListHtml].join('');
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('mainApp').classList.add('hidden');
     document.getElementById('floatingBoard').classList.add('hidden');
@@ -74,13 +81,13 @@ async function submitToGas() {
     btn.insertAdjacentHTML('afterend', '<p id="submitLoadingText" class="mt-4 text-center text-sm text-blue-600 font-bold">資料與附件上傳中，請稍候，請勿重複送出或關閉頁面。</p>');
 
     try {
-        const { payload, detailListHtml } = await buildPayload();
+        const { payload, detailListHtml, requiredDetailListHtml } = await buildPayload();
         await fetch(GAS_URL, {
             method: 'POST',
             mode: 'no-cors',
             body: JSON.stringify(payload)
         });
-        showSubmitSuccess(payload, detailListHtml);
+        showSubmitSuccess(payload, detailListHtml, requiredDetailListHtml);
     } catch (e) {
         if (e && e.message === 'QUERY_CODE_INVALID') {
             alert('請先輸入 4 碼數字查詢碼。');

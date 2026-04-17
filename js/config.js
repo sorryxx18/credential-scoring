@@ -31,8 +31,27 @@ const CONFIG = [
     { id: "drive", title: "車輛駕駛", items: [{ name: "大貨(客)車駕照", score: 0.70, hasDate: false, required: true }, { name: "聯結車駕照", score: 1.05, hasDate: false }] }
 ];
 
-const REQUIRED_CERTIFICATES = [
-    { categoryId: "rescue", name: "救助隊訓練(320小時)" },
-    { categoryId: "fire", name: "火災搶救初級班" },
-    { categoryId: "drive", name: "大貨(客)車駕照" }
+const REQUIRED_GROUPS = [
+    {
+        key: "rescue",
+        label: "救助隊訓練(320小時)",
+        options: [
+            { categoryId: "rescue", name: "救助隊訓練(320小時)" }
+        ]
+    },
+    {
+        key: "fire",
+        label: "火災搶救初級班",
+        options: [
+            { categoryId: "fire", name: "火災搶救初級班" }
+        ]
+    },
+    {
+        key: "drive",
+        label: "車輛駕駛必要證照（大貨(客)車或聯結車）",
+        options: [
+            { categoryId: "drive", name: "大貨(客)車駕照" },
+            { categoryId: "drive", name: "聯結車駕照" }
+        ]
+    }
 ];
